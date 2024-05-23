@@ -7,18 +7,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MemberLogoutCommand implements MemberInterface {
+
+public class MemberMainCommand implements MemberInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		String nickName = (String) session.getAttribute("sNickName");
+		String mid = (String) session.getAttribute("sMid");
 		
-		session.invalidate();
+		MemberDAO mDao = new MemberDAO();
+		MemberVO mVo = mDao.getMemberIdCheck(mid);
 		
-		request.setAttribute("message", nickName+"님 로그아웃 되셨습니다.");
-		request.setAttribute("url", request.getContextPath()+"/Main");
+		request.setAttribute("mVo", mVo);
 	}
 
 }

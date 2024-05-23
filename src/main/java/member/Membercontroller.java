@@ -54,6 +54,16 @@ public class Membercontroller extends HttpServlet{
 			command.execute(request, response);
 			return;
 		}
+		else if(level > 4) {
+			request.setAttribute("message", "로그인후 사용하세요");
+			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
+			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/MemberMain")) {
+			command = new MemberMainCommand();
+			command.execute(request, response);
+			viewPage += "/memberMain.jsp";
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);		
 	}
