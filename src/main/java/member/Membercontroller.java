@@ -64,6 +64,14 @@ public class Membercontroller extends HttpServlet{
 			command.execute(request, response);
 			viewPage += "/memberMain.jsp";
 		}
+		else if(com.equals("/MemberPwdCheck")) {
+			viewPage += "/memberPwdCheck.jsp";
+		}
+		else if(com.equals("/MemberPwdCheckAjax")) {
+			command = new MemberPwdCheckAjaxCommand();
+			command.execute(request, response);
+			return;
+	}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
 		dispatcher.forward(request, response);		
 	}

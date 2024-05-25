@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="javaclassJ100">
+        
+    <wb-module deploy-name="javaclassJ6">
+                
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+                
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <property name="context-root" value="javaclassJ100"/>
-        <property name="java-output-path" value="/javaclassJ100/build/classes"/>
+                
+        <property name="java-output-path" value="/javaclassJ6/build/classes"/>
+        <property name="context-root" value="javaclassJ6"/>
+            
     </wb-module>
+    
 </project-modules>

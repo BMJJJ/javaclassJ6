@@ -19,10 +19,10 @@
 <body>
 
 
+<%@ include file = "../../include/nav.jsp" %>
 <%@ include file = "../../include/header.jsp" %>
 
 <!-- 메뉴바(Nav) -->
-<%@ include file = "../../include/nav.jsp" %>
 
 <div class="container" style="margin-top:30px">
   <div class="row">

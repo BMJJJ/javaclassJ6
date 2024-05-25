@@ -10,6 +10,48 @@
   <jsp:include page="/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
+    <style>
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      background-color: #f9f9f9;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-control {
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+    }
+    .btn {
+      border-radius: 5px;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+    .custom-file-label::after {
+      content: "Browse";
+    }
+    .custom-file-input:lang(en)~.custom-file-label::after {
+      content: "Browse";
+    }
+  </style>
   <script>
     'use strict';
     
@@ -48,7 +90,7 @@
     	let extraAddress = myform.extraAddress.value + " ";
     	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
     	
-    	if(!regMid.test(mid)) {
+     	if(!regMid.test(mid)) {
     		alert("아이디는 4~20자리의 영문 소/대문자와 숫자, 언더바(_)만 사용가능합니다.");
     		myform.mid.focus();
     		return false;
@@ -69,11 +111,11 @@
         return false;
       }
       else if(!regEmail.test(email1)) {
-        alert("4~20의 영문 대/소문자와 숫자와 밑줄 가능");
+        alert("이메일은 4~20의 영문 대/소문자와 숫자와 밑줄 가능");
         myform.email1.focus();
         return false;
       }
-			
+			 
 			
 			// 전화번호 형식 체크
 			if(tel2 != "" && tel3 != "") {
@@ -85,7 +127,25 @@
 				tel = tel1 + "-" + tel2 + "-" + tel3;
 			}
 			
+			let fName = document.getElementById("file").value;
+			if(fName.trim() != "") {
+				let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase();
+				let maxSize = 1024 * 1024 * 5;
+				let fileSize = document.getElementById("file").files[0].size;
+				
+				if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
+					alert("그림파일만 업로드 가능합니다.");
+					return false;
+				}
+				else if(fileSize > maxSize) {
+					alert("업로드할 파일의 최대용량은 5MByte입니다.");
+					return false;
+				}
+			}
+			else return false;			
     	
+			
+			
     	if(idCheckSw == 0) {
     		alert("아이디 중복체크버튼을 눌러주세요");
     		document.getElementById("midBtn").focus();
@@ -181,6 +241,16 @@
     	});
     	
     });
+ // 선택된 사진 미리보기
+    function imgCheck(e) {
+    	if(e.files && e.files[0]) {
+    		let reader = new FileReader();
+    		reader.onload = function(e) {
+    			document.getElementById("photoDemo").src = e.target.result;
+    		}
+    		reader.readAsDataURL(e.files[0]);
+    	}
+    } 
   </script>
 </head>
 <body>
@@ -188,7 +258,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated">
+  <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated" enctype="multipart/form-data">
     <h2>회 원 가 입</h2>
     <br/>
     <div class="form-group">
@@ -210,22 +280,23 @@
       <label for="name">성명 :</label>
       <input type="text" class="form-control" id="name" placeholder="성명을 입력하세요." name="name" required />
     </div>
-    <div class="form-group">
-      <label for="email1">Email address:</label>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Email을 입력하세요." id="email1" name="email1" required />
+     <div class="form-group">
+        <label for="email1">이메일</label>
+        <div class="input-group">
+          <input type="text" id="email1" name="email1" class="form-control" required>
           <div class="input-group-append">
-            <select name="email2" class="custom-select">
-              <option value="naver.com" selected>naver.com</option>
-              <option value="hanmail.net">hanmail.net</option>
-              <option value="hotmail.com">hotmail.com</option>
-              <option value="gmail.com">gmail.com</option>
-              <option value="nate.com">nate.com</option>
-              <option value="yahoo.com">yahoo.com</option>
-            </select>
+            <span class="input-group-text">@</span>
           </div>
+          <select id="email2" name="email2" class="form-control">
+            <option value="naver.com">naver.com</option>
+            <option value="daum.net">daum.net</option>
+            <option value="gmail.com">gmail.com</option>
+            <option value="nate.com">nate.com</option>
+            <option value="hotmail.com">hotmail.com</option>
+            <option value="hanmail.net">hanmail.net</option>
+          </select>
         </div>
-    </div>
+      </div>
     <div class="form-group">
       <div class="form-check-inline">
         <span class="input-group-text">성별 :</span> &nbsp; &nbsp;
@@ -296,7 +367,8 @@
     </div>
     <div  class="form-group">
       회원 사진(파일용량:2MByte이내) :
-      <input type="file" name="fName" id="file" class="form-control-file border"/>
+      <input type="file" name="fName" id="file" onchange="imgCheck(this)" class="form-control-file border"/>
+       <div><img id="photoDemo" width="100px"/></div>
     </div>
     <button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
     <button type="reset" class="btn btn-secondary">다시작성</button> &nbsp;

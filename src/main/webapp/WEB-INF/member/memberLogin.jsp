@@ -2,57 +2,122 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <%
-	// 로그인창에 아이디 체크 유무에 대한 처리
-	// 쿠키를 검색해서 cMid가 있을때 가져와서 아이디입력창에 뿌릴수 있게 한다.
-	Cookie[] cookies = request.getCookies();
-
-	if(cookies != null) {
-		for(int i=0; i<cookies.length; i++) {
-			if(cookies[i].getName().equals("cMid")) {
-				pageContext.setAttribute("mid", cookies[i].getValue());
-				break;
-			}
-		}
-	}
+    // 로그인창에 아이디 체크 유무에 대한 처리
+    // 쿠키를 검색해서 cMid가 있을때 가져와서 아이디입력창에 뿌릴수 있게 한다.
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("cMid")) {
+                pageContext.setAttribute("mid", cookies[i].getValue());
+                break;
+            }
+        }
+    }
 %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>memberLogin.jsp</title>
+  <title>로그인</title>
   <%@ include file = "/include/bs4.jsp" %>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      color: #343a40;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      width: 100%;
+      max-width: 400px;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+    }
+    .card-header {
+      background-color: #D1D3CF;
+      color: black;
+      border-radius: 15px 15px 0 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .card-body {
+      padding: 30px;
+    }
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .form-control {
+      border-radius: 5px;
+      padding: 10px;
+    }
+    .btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      transition: opacity 0.3s;
+    }
+    .btn-success {
+      background-color: #28a745;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+    }
+    .btn-primary {
+      background-color: #007bff;
+    }
+    .btn:hover {
+      opacity: 0.8;
+    }
+    .form-check {
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
-<jsp:include page="/include/nav.jsp" />
-<p><br/></p>
-<div class="container">
-  <form name="myform" method="post" action="${ctp}/MemberLoginOk.mem">
-    <table class="table table-bordered text-center">
-      <tr>
-        <td colspan="2"><font size="5">로 그 인</font></td>
-      </tr>
-      <tr>
-        <th>아이디</th>
-        <td><input type="text" name="mid" value="${mid}" autofocus required class="form-control"/></td>
-      </tr>
-      <tr>
-        <th>비밀번호</th>
-        <td><input type="password" name="pwd" value="1234" required class="form-control"/></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <input type="submit" value="로그인" class="btn btn-success mr-2"/>
-          <input type="reset" value="다시입력" class="btn btn-warning mr-2"/>
-          <input type="button" value="회원가입" onclick="location.href='${ctp}/MemberJoin.mem';" class="btn btn-primary mr-4"/>
-	    		<input type="checkbox" name="idSave" checked /> 아이디 저장
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
-<p><br/></p>
-<jsp:include page="/include/footer.jsp" />
+  <jsp:include page="/include/header.jsp" />
+  <jsp:include page="/include/nav.jsp" />
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h5>로그인</h5>
+      </div>
+      <div class="card-body">
+        <form name="myform" method="post" action="${ctp}/MemberLoginOk.mem">
+          <div class="form-group">
+            <label for="mid">아이디</label>
+            <input type="text" name="mid" value="${mid}" id="mid" class="form-control" placeholder="아이디를 입력하세요" autofocus required />
+          </div>
+          <div class="form-group">
+            <label for="pwd">비밀번호</label>
+            <input type="password" name="pwd" id="pwd" class="form-control" placeholder="비밀번호를 입력하세요" required />
+          </div>
+          <button type="submit" class="btn btn-success">로그인</button>
+          <button type="reset" class="btn btn-warning">다시입력</button>
+          <button type="button" class="btn btn-primary" onclick="location.href='${ctp}/MemberJoin.mem';">회원가입</button>
+          <div class="form-check">
+            <input type="checkbox" name="idSave" id="idSave" class="form-check-input" checked />
+            <label class="form-check-label" for="idSave">아이디 저장</label>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <jsp:include page="/include/footer.jsp" />
 </body>
 </html>
