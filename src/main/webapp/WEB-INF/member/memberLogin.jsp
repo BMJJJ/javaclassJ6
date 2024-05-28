@@ -43,9 +43,6 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s;
     }
-    .card:hover {
-      transform: translateY(-10px);
-    }
     .card-header {
       background-color: #D1D3CF;
       color: black;
@@ -90,8 +87,8 @@
   </style>
 </head>
 <body>
-  <jsp:include page="/include/header.jsp" />
   <jsp:include page="/include/nav.jsp" />
+  <jsp:include page="/include/header.jsp" />
   <div class="container">
     <div class="card">
       <div class="card-header">

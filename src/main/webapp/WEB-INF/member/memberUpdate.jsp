@@ -13,16 +13,15 @@
   <script src="${ctp}/js/woo.js"></script>
   <script>
     'use strict';
-    
     let nickCheckSw = 0;
     
     function fCheck() {
-    	// 유효성 검사.....
-    	// 아이디,닉네임,성명,이메일,홈페이지,전화번호,비밀번호 등등....
+    	// 유효성 검사
     	
     	// 정규식을 이용한 유효성검사처리.....
-      let regNickName = /^[가-힣0-9_]+$/;			// 닉네임은 한글,숫자,밑줄만 가능
+      let regNickName = /^[가-힣0-9]+$/;					// 닉네임은 한글, 숫자 만 가능
       let regName = /^[가-힣a-zA-Z]+$/;				// 이름은 한글/영문 가능
+      let regEmail = /^[a-zA-Z0-9_]{4,20}$/; // 4~20의 영문 대/소문자와 숫자와 밑줄 가능
     	
     	
     	// 검사를 끝내고 필요한 내역들을 변수에 담아 회원가입처리한다.
@@ -44,8 +43,8 @@
     	let extraAddress = myform.extraAddress.value + " ";
     	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress;
     	
-    	if(!regNickName.test(nickName)) {
-        alert("닉네임은 한글만 사용가능합니다.");
+      if(!regNickName.test(nickName)) {
+        alert("닉네임은 한글과 숫자만 사용가능합니다.");
         myform.nickName.focus();
         return false;
       }
@@ -54,11 +53,23 @@
         myform.name.focus();
         return false;
       }
-			// 이메일 주소형식체크
-			
-			// 홈페이지 주소형식체크
+      else if(!regEmail.test(email1)) {
+        alert("이메일은 4~20의 영문 대/소문자와 숫자와 밑줄 가능");
+        myform.email1.focus();
+        return false;
+      }
+			 
 			
 			// 전화번호 형식 체크
+			if(tel2 != "" && tel3 != "") {
+				// 전화번호 정규화 체크
+			}
+			else {
+				tel2 = " ";
+				tel3 = " ";
+				tel = tel1 + "-" + tel2 + "-" + tel3;
+				 return false;
+			}
 			
     	
     	if(nickCheckSw == 0) {
@@ -73,7 +84,6 @@
     		myform.submit();
     	}
     }
-    
     
     // 닉네임 중복체크
     function nickCheck() {
@@ -114,6 +124,16 @@
     		nickCheckSw = 0;
     	});
     });
+ // 선택된 사진 미리보기
+    function imgCheck(e) {
+    	if(e.files && e.files[0]) {
+    		let reader = new FileReader();
+    		reader.onload = function(e) {
+    			document.getElementById("photoDemo").src = e.target.result;
+    		}
+    		reader.readAsDataURL(e.files[0]);
+    	}
+    } 
   </script>
 </head>
 <body>
@@ -141,11 +161,11 @@
           <div class="input-group-append">
             <select name="email2" class="custom-select">
               <option value="naver.com"   ${email[1] == 'naver.com' ? 'selected' : ''}>naver.com</option>
-              <option value="hanmail.net" ${email[1] == 'hanmail.net' ? 'selected' : ''}>hanmail.net</option>
-              <option value="hotmail.com" ${email[1] == 'hotmail.com' ? 'selected' : ''}>hotmail.com</option>
-              <option value="gmail.com"   ${email[1] == 'gmail.com' ? 'selected' : ''}>gmail.com</option>
-              <option value="nate.com"    ${email[1] == 'nate.com' ? 'selected' : ''}>nate.com</option>
-              <option value="yahoo.com"   ${email[1] == 'yahoo.com' ? 'selected' : ''}>yahoo.com</option>
+              <option value="daum.net" ${email[1] == 'daum.net' ? 'selected' : ''}>daum.net</option>
+              <option value="gmail.com" ${email[1] == 'gmail.com' ? 'selected' : ''}>gmail.com</option>
+              <option value="nate.com"   ${email[1] == 'nate.com' ? 'selected' : ''}>nate.com</option>
+              <option value="hotmail.com"    ${email[1] == 'hotmail.com' ? 'selected' : ''}>hotmail.com</option>
+              <option value="hanmail.net"   ${email[1] == 'hanmail.net' ? 'selected' : ''}>hanmail.net</option>
             </select>
           </div>
         </div>
@@ -204,37 +224,6 @@
           <input type="text" name="extraAddress" value="${extraAddress}" id="sample6_extraAddress" placeholder="참고항목" class="form-control">
         </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="homepage">Homepage address:</label>
-      <input type="text" class="form-control" name="homePage" value="${vo.homePage}" id="homePage"/>
-    </div>
-    <div class="form-group">
-      <label for="name">직업</label>
-      <select class="form-control" id="job" name="job">
-        <!-- <option value="">직업선택</option> -->
-        <option ${vo.job == '학생'  ? 'selected' : ''}>학생</option>
-        <option ${vo.job == '회사원' ? 'selected' : ''}>회사원</option>
-        <option ${vo.job == '공무원' ? 'selected' : ''}>공무원</option>
-        <option ${vo.job == '군인'  ? 'selected' : ''}>군인</option>
-        <option ${vo.job == '의사'  ? 'selected' : ''}>의사</option>
-        <option ${vo.job == '법조인' ? 'selected' : ''}>법조인</option>
-        <option ${vo.job == '세무인' ? 'selected' : ''}>세무인</option>
-        <option ${vo.job == '자영업' ? 'selected' : ''}>자영업</option>
-        <option ${vo.job == '기타' ? 'selected' : ''}>기타</option>
-      </select>
-    </div>
-    <div class="form-group">
-      취미 : &nbsp;
-      <c:set var="varHobbys" value="${fn:split('등산/낚시/수영/독서/영화감상/바둑/축구/기타','/')}"/>
-      <c:forEach var="tempHobby" items="${varHobbys}" varStatus="st">
-        <%-- <input type="checkbox" name="hobby" value="${tempHobby}" <c:if test="${fn:contains(hobby,varHobbys[st.index])}">checked</c:if> /> ${tempHobby}&nbsp; --%>
-        <input type="checkbox" name="hobby" value="${tempHobby}" <c:if test="${fn:contains(hobby,tempHobby)}">checked</c:if> /> ${tempHobby}&nbsp;
-      </c:forEach>
-    </div>
-    <div class="form-group">
-      <label for="content">자기소개</label>
-      <textarea rows="5" class="form-control" id="content" name="content">${vo.content}</textarea>
     </div>
     <div class="form-group">
       <div class="form-check-inline">

@@ -254,8 +254,8 @@
   </script>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
 <jsp:include page="/include/nav.jsp" />
+<jsp:include page="/include/header.jsp" />
 <p><br/></p>
 <div class="container">
   <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated" enctype="multipart/form-data">

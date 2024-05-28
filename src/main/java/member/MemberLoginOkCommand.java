@@ -55,18 +55,23 @@ public class MemberLoginOkCommand implements MemberInterface {
 		String strToday = sdf.format(today);
 		
 		if(!strToday.equals(vo.getLastDate().substring(0,10))) {
-			// 오늘 처음 방문한 경우이다.(오늘 방문카운트는 1로, 기존 포인트에 +10)
+			// 오늘 처음 방문한 경우이다.(오늘 방문카운트는 1)
+			// 2-2. 자동 정회원 등업시키기
+			// 조건: 출석을 10일이상 했을시 정회원 승급
 			vo.setTodayCnt(1);
+			vo.setVisitCnt(vo.getVisitCnt()+1);
+			if(vo.getVisitCnt()==10 && vo.getLevel() != 0) {
+				vo.setLevel(2);
+			}
 		}
 		else {
-			// 오늘 다시 방문한경우(오늘 방문카운트는 오늘방문카운트 + 1, 포인트증가는? 오늘 방문횟수가 5회전까지라면 기존포인트에 +10을 한다.)
 			vo.setTodayCnt(vo.getTodayCnt() + 1);
 		}		
+	// 3. 방문포인트와 카운트를 증가처리한내용을 vo에 모두 담았다면 DB 자신의 레코드에 변경된 사항들을 갱신처리해준다.
+		dao.setLoginUpdate(vo);	
 		
-		// 2-2. 자동 정회원 등업시키기
-		// 조건: 방명록에 5회이상 글을 올렸을시 '준회원'에서 '정회원'으로 자동 등업처리한다.(단, 방명록의 글은 1일 여러번 등록해도 1회로 처리한다) 
 		
-		// 3. 방문포인트와 카운트를 증가처리한내용을 vo에 모두 담았다면 DB 자신의 레코드에 변경된 사항들을 갱신처리해준다.
+		
 		//dao.setLoginUpdate(vo);	
 		
 		// 쿠키에 아이디를 저장/해제 처리한다.

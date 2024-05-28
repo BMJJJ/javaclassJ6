@@ -5,9 +5,15 @@
   int level = session.getAttribute("sLevel")==null ? 999 : (int) session.getAttribute("sLevel");
   pageContext.setAttribute("level", level);
 %>
+<script>
+	'use strict';
+	
+	function notLogin() {
+		alert("로그인이 필요합니다.");
+		location.href = "${ctp}/MemberLogin.mem";
+	}
+</script>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <%-- <a class="navbar-brand" href="<%=request.getContextPath()%>/">Home</a> --%>
-  <!-- <a class="navbar-brand" href="http://192.168.50.69:9090/javaclass">Home</a> -->
   <a class="navbar-brand" href="http://192.168.50.69:9090/javaclassJ6/Main">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
@@ -15,22 +21,22 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="${ctp}/GuestList">Guest</a>
+        <a class="nav-link" href="${empty sMid ? 'javascript:notLogin()' : '${ctp}/GuestList'}">Guest</a>
       </li>
 			<c:if test="${level <= 4}">
 	      <li class="nav-item">
-	        <a class="nav-link" href="BoardList.bo">Board</a>
+	        <a class="nav-link" href="BoardList.bo">자유게시판</a>
 	      </li>
 	    </c:if>
-      <c:if test="${level <= 4 && (level > 1 || level == 0)}">
+      <c:if test="${level <= 4 && (level > 2 || level == 0)}">
 	      <li class="nav-item">
-	        <a class="nav-link" href="PdsList.pds">PDS</a>
+	        <a class="nav-link" href="PdsList.pds">사진 공유방</a>
 	      </li>    
 	      <li class="nav-item mr-2">
 				  <div class="dropdown">
-				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">Study1</button>
+				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">게시판</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="<%=request.getContextPath()%>/study/0426/t01.jsp">서버환경</a>
+				      <a class="dropdown-item" href="BoardList.bo">게시판</a>
 				    </div>
 				  </div>
 	      </li>

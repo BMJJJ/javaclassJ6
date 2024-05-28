@@ -135,5 +135,76 @@ public class MemberDAO {
 		}
 		return vo;
 	}
-	
+
+	public void setLoginUpdate(MemberVO vo) {
+		try {
+			sql = "update member2 set lastDate=now(), visitCnt=?, todayCnt=?, level=? where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getVisitCnt());
+			pstmt.setInt(2, vo.getTodayCnt());
+			pstmt.setInt(3, vo.getLevel());
+			pstmt.setString(4, vo.getMid());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+
+	public int setMemberPwdChange(String mid, String pwd) {
+		int res = 0;
+		try {
+			sql = "update member set pwd=? where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pwd);
+			pstmt.setString(2, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setMemberUpdateOk(MemberVO vo) {
+		int res = 0;
+		try {
+			sql = "update member2 set nickName=?, name=?, gender=?, birthday=?, tel=?, address=?, "
+					+ "email=?, photo=?, userInfor=? where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getNickName());
+			pstmt.setString(2, vo.getName());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setString(4, vo.getBirthday());
+			pstmt.setString(5, vo.getTel());
+			pstmt.setString(6, vo.getAddress());
+			pstmt.setString(7, vo.getEmail());
+			pstmt.setString(8, vo.getPhoto());
+			pstmt.setString(9, vo.getUserInfor());
+			pstmt.setString(10, vo.getMid());
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setMemberDeleteUpdate(String mid) {
+		int res = 0;
+		try {
+			sql = "update member2 set userDel = 'OK', level=99 where mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
 }
