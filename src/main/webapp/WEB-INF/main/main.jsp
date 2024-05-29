@@ -136,7 +136,7 @@
       <hr class="d-sm-none">
     </div>
     <div class="col-sm-8">
-      <h2>주경</h2>
+      <h2>낮</h2>
       <h5>Title description, Dec 7, 2017</h5>
       <div class="w3-content w3-section ml-2" style="max-width:500px">
         <img class="mySlides w3-animate-fading" src="${ctp}/images/116.jpg" style="width:100%" >
@@ -145,9 +145,9 @@
         <img class="mySlides w3-animate-fading" src="${ctp}/images/130.jpg" style="width:100%">
       </div>
       <p>Some text..</p>
-      <p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+      <p>최고의 약은 바로 걷는 것이다. - 히포크라테스-</p>
       <br>
-      <h2>야경</h2>
+      <h2>밤</h2>
       <h5>Title description, Sep 2, 2017</h5>
       <div class="w3-content w3-section fakeimg ml-2" style="max-width:500px; height: auto;">
         <img class="mySlides2 w3-animate-fading" src="${ctp}/images/118.jpg" style="width:100%">

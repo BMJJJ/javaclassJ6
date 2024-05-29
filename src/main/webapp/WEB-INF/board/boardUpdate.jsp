@@ -101,7 +101,6 @@
       </tr>
     </table>
     <input type="hidden" name="idx" value="${vo.idx}"/>
-    <%-- <input type="hidden" name="mid" value="${sMid}"/> --%>
     <input type="hidden" name="pag" value="${pag}"/>
     <input type="hidden" name="pageSize" value="${pageSize}"/>
   </form>

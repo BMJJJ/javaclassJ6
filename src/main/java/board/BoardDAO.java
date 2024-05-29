@@ -36,7 +36,8 @@ import common.GetConn;
 			}
 		}
 
-		public List<BoardVO> getBoardList(int startIndexNo, int pageSize, String contentsShow, String search, String searchString) {
+	// 전체 게시글 보기
+		public ArrayList<BoardVO> getBoardList(int startIndexNo, int pageSize, String contentsShow, String search, String searchString) {
 			ArrayList<BoardVO> vos = new ArrayList<BoardVO>();
 			try {
 				if(search == null || search.equals("")) {
@@ -101,6 +102,9 @@ import common.GetConn;
 					vo.setTitle(rs.getString("title"));
 					vo.setContent(rs.getString("content"));
 					vo.setReadNum(rs.getInt("readNum"));
+					vo.setPartArea("partArea");
+					vo.setPart("part");
+					vo.setOpenSw(rs.getString("openSw"));
 					vo.setwDate(rs.getString("wDate"));
 					vo.setGood(rs.getInt("good"));
 					vo.setComplaint(rs.getString("complaint"));
@@ -124,12 +128,15 @@ import common.GetConn;
 		public int setBoardInput(BoardVO vo) {
 			int res = 0;
 			try {
-				sql = "insert into board values (default,?,?,?,?,default,?,default,default,default)";
+				sql = "insert into board values (default,?,?,?,?,default,?,?,?,default,default,default)";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, vo.getMid());
 				pstmt.setString(2, vo.getNickName());
 				pstmt.setString(3, vo.getTitle());
 				pstmt.setString(4, vo.getContent());
+				pstmt.setString(5, vo.getPartArea());
+				pstmt.setString(6, vo.getPart());
+				pstmt.setString(7, vo.getOpenSw());
 				res = pstmt.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println("SQL 오류 : " + e.getMessage());
@@ -217,6 +224,7 @@ import common.GetConn;
 			}
 			return totRecCnt;
 		}
+		
 		public BoardVO getPreNextSearch(int idx, String str) {
 			BoardVO vo = new BoardVO();
 			try {
@@ -273,11 +281,11 @@ import common.GetConn;
 		public int setBoardUpdateOk(BoardVO vo) {
 			int res = 0;
 			try {
-				sql = "update board set title=?, content=?, openSw=?, wDate=now() where idx = ?";
+				sql = "update board set title=?, content=?, wDate=now() where idx = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, vo.getTitle());
 				pstmt.setString(2, vo.getContent());
-				pstmt.setInt(4, vo.getIdx());
+				pstmt.setInt(3, vo.getIdx());
 				res = pstmt.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println("SQL 오류 : " + e.getMessage());
@@ -287,16 +295,155 @@ import common.GetConn;
 			return res;
 		}
 
-		public ArrayList<BoardVO> getBoardSearch(String partArea, String part) {
+		// 전체 꺼내기 (전버전)
+//		public ArrayList<BoardVO> getBoardSearch(String search, String searchString, String partArea, String part) {
+//			ArrayList<BoardVO> vos = new ArrayList<BoardVO>();
+//			try {
+//			  sql = "select *, datediff(wDate, now()) as date_diff, "
+//			  		+ "timestampdiff(hour, wDate, now()) as hour_diff, "
+//			  		+ "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
+//			  		+ "from board b where partArea=? and part=? order by idx desc";
+//			  pstmt = conn.prepareStatement(sql);
+//			  pstmt.setString(1, partArea);
+//			  pstmt.setString(2, part);
+//				rs = pstmt.executeQuery();
+//				
+//				while(rs.next()) {
+//					vo = new BoardVO();
+//					vo.setIdx(rs.getInt("idx"));
+//					vo.setMid(rs.getString("mid"));
+//					vo.setNickName(rs.getString("nickName"));
+//					vo.setTitle(rs.getString("title"));
+//					vo.setContent(rs.getString("content"));
+//					vo.setReadNum(rs.getInt("readNum"));
+//					vo.setwDate(rs.getString("wDate"));
+//					vo.setGood(rs.getInt("good"));
+//					vo.setComplaint(rs.getString("complaint"));
+//					
+//					vo.setHour_diff(rs.getInt("hour_diff"));
+//					vo.setDate_diff(rs.getInt("date_diff"));
+//					
+//					vo.setReplyCnt(rs.getInt("replyCnt"));
+//					
+//					vos.add(vo);
+//				}
+//			} catch (SQLException e) {
+//				System.out.println("SQL 오류.. : " + e.getMessage());
+//				e.printStackTrace();
+//			} finally {
+//				rsClose();			
+//			}
+//			return vos;
+//		}
+
+		//게시글 삭제하기
+		public int setBoardDelete(int idx) {
+			int res = 0;
+			try {
+				sql = "delete from board where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				res = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("SQL 오류 : " + e.getMessage());
+			} finally {
+				pstmtClose();			
+			}
+			return res;
+		}
+		
+	// 작성된 댓글 가져오기
+		public ArrayList<BoardReplyVO> getBoardReply(int idx) {
+			ArrayList<BoardReplyVO> replyVos = new ArrayList<>();
+			try {
+				sql = "select * from boardReply where boardIdx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				rs = pstmt.executeQuery();
+				
+				BoardReplyVO vo = null;
+				while(rs.next()) {
+					vo = new BoardReplyVO();
+					vo.setIdx(rs.getInt("idx"));
+					vo.setBoardIdx(rs.getInt("boardIdx"));
+					vo.setMid(rs.getString("mid"));
+					vo.setNickName(rs.getString("nickName"));
+					vo.setwDate(rs.getString("wDate"));
+					vo.setContent(rs.getString("content"));
+					vo.setOpenSw(rs.getString("openSw"));
+					
+					replyVos.add(vo);
+				}
+			} catch (SQLException e) {
+				System.out.println("SQL 오류 : " + e.getMessage());
+			} finally {
+				rsClose();			
+			}
+			return replyVos;
+		}
+		
+
+	// 댓글 저장하기
+		public int setReplyInput(BoardReplyVO vo) {
+			int res = 0;
+			try {
+				sql = "insert into boardReply values (default,?,?,?,default,?,?)";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, vo.getBoardIdx());
+				pstmt.setString(2, vo.getMid());
+				pstmt.setString(3, vo.getNickName());
+				pstmt.setString(4, vo.getContent());
+				pstmt.setString(5, vo.getOpenSw());
+				res = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("SQL 오류 : " + e.getMessage());
+			} finally {
+				pstmtClose();			
+			}
+			return res;
+		}
+
+		// 댓글 삭제하기
+		public int setBoardReplyDelete(int idx) {
+			int res = 0;
+				try {
+					sql = "delete from boardReply where idx = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, idx);
+					res = pstmt.executeUpdate();
+				} catch (SQLException e) {
+					System.out.println("SQL 오류 : " + e.getMessage());
+				} finally {
+					pstmtClose();			
+				}
+				return res;
+		}
+
+		// 게시판 검색한 값 꺼내기
+		public ArrayList<BoardVO> getBoardSearch(String flag, String searchTopic, String searchContent) {
 			ArrayList<BoardVO> vos = new ArrayList<BoardVO>();
 			try {
-			  sql = "select *, datediff(wDate, now()) as date_diff, "
-			  		+ "timestampdiff(hour, wDate, now()) as hour_diff, "
-			  		+ "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
-			  		+ "from board b where partArea=? and part=? order by idx desc";
-			  pstmt = conn.prepareStatement(sql);
-			  pstmt.setString(1, partArea);
-			  pstmt.setString(2, part);
+				
+				if(flag.equals("partSearch")) {
+				  sql = "select *, datediff(now(), wDate) as date_diff, "
+			        + "timestampdiff(hour, wDate, now()) as hour_diff, "
+			        + "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
+			        + "from board b where partArea = ? and part = ? order by idx desc";
+					
+					
+					pstmt = conn.prepareStatement(sql);
+				  pstmt.setString(1, searchTopic);
+				  pstmt.setString(2, searchContent);
+				}
+				else if(flag.equals("contentSearch")) {
+					sql = "select *, datediff(now(), wDate) as date_diff, "
+							+ "timestampdiff(hour, wDate, now()) as hour_diff, "
+							+ "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
+							+ "from board b where "+searchTopic+" like concat('%', ?, '%') order by idx desc";
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, searchContent);
+				}
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {

@@ -98,10 +98,6 @@
   <script>
     'use strict';
     
-    function partAreaCheck() {
-		
-	}
-    
     function pageSizeCheck() {
       let pageSize = $("#pageSize").val();
       location.href = "BoardList.bo?pageSize=" + pageSize;
@@ -121,7 +117,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <form name="searchForm" method="post" action="BoardSearch.bo">
+  <form name="searchForm" method="post" action="BoardSearch.bo?flag=partSearch">
     <select name="partArea" id="partArea">
       <option ${partArea=="전체" ? "selected" : ""}>전체</option>
       <option ${partArea=="서울" ? "selected" : ""}>서울</option>
@@ -187,10 +183,6 @@
             </td>
             <td>${vo.readNum}(${vo.good})</td>
           </tr>
-      <%-- 
-        </c:if>
-      </c:if>
-       --%>
       <c:set var="curScrStartNo" value="${curScrStartNo - 1}" />
     </c:forEach>
     <tr><td colspan="5" class="m-0 p-0"></td></tr>
@@ -213,7 +205,7 @@
   <br/>
   <!-- 검색기 시작 -->
   <div class="container text-center">
-    <form name="searchForm" method="post" action="BoardSearchList.bo">
+    <form name="searchForm" method="post" action="BoardSearch.bo?flag=contentSearch">
       <b>검색 : </b>
       <select name="search" id="search">
         <option value="title">글제목</option>

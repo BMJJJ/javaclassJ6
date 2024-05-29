@@ -7,8 +7,9 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private int readNum;
-	private String partarea;
+	private String partArea;
 	private String part;
+	private String openSw;
 	private String wDate;
 	private int good;
 	private String complaint;
@@ -52,17 +53,23 @@ public class BoardVO {
 	public void setReadNum(int readNum) {
 		this.readNum = readNum;
 	}
-	public String getPartarea() {
-		return partarea;
+	public String getPartArea() {
+		return partArea;
 	}
-	public void setPartarea(String partarea) {
-		this.partarea = partarea;
+	public void setPartArea(String partArea) {
+		this.partArea = partArea;
 	}
 	public String getPart() {
 		return part;
 	}
 	public void setPart(String part) {
 		this.part = part;
+	}
+	public String getOpenSw() {
+		return openSw;
+	}
+	public void setOpenSw(String openSw) {
+		this.openSw = openSw;
 	}
 	public String getwDate() {
 		return wDate;
@@ -103,9 +110,9 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [idx=" + idx + ", mid=" + mid + ", nickName=" + nickName + ", title=" + title + ", content="
-				+ content + ", readNum=" + readNum + ", partarea=" + partarea + ", part=" + part + ", wDate=" + wDate
-				+ ", good=" + good + ", complaint=" + complaint + ", hour_diff=" + hour_diff + ", date_diff=" + date_diff
-				+ ", replyCnt=" + replyCnt + "]";
+				+ content + ", readNum=" + readNum + ", partArea=" + partArea + ", part=" + part + ", openSw=" + openSw
+				+ ", wDate=" + wDate + ", good=" + good + ", complaint=" + complaint + ", hour_diff=" + hour_diff
+				+ ", date_diff=" + date_diff + ", replyCnt=" + replyCnt + "]";
 	}
 	
 }

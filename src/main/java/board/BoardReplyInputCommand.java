@@ -6,43 +6,29 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class BoardInputOkCommand implements BoardInterface {
+public class BoardReplyInputCommand implements BoardInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int boardIdx = request.getParameter("boardIdx")==null ? 0 : Integer.parseInt(request.getParameter("boardIdx"));
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		String nickName = request.getParameter("nickName")==null ? "" : request.getParameter("nickName");
-		String title = request.getParameter("title")==null ? "" : request.getParameter("title");
 		String content = request.getParameter("content")==null ? "" : request.getParameter("content");
-		String partArea = request.getParameter("partArea")==null ? "" : request.getParameter("partArea");
-		String part = request.getParameter("part")==null ? "" : request.getParameter("part");
 		String openSw = request.getParameter("openSw")==null ? "" : request.getParameter("openSw");
 		
+		BoardReplyVO vo = new BoardReplyVO();
 		
-		BoardVO vo = new BoardVO();
-		
+		vo.setBoardIdx(boardIdx);
 		vo.setMid(mid);
 		vo.setNickName(nickName);
-		title = title.replace("<", "&lt;").replace(">", "&gt;");
-		vo.setTitle(title);
 		vo.setContent(content);
-		vo.setPartArea(partArea);
-		vo.setPart(part);
 		vo.setOpenSw(openSw);
-		
 		
 		BoardDAO dao = new BoardDAO();
 		
-		int res = dao.setBoardInput(vo);
+		int res = dao.setReplyInput(vo);
 		
-		if(res != 0) {
-			request.setAttribute("message", "게시글이 등록되었습니다.");
-			request.setAttribute("url", "BoardList.bo");
-		}
-		else {
-			request.setAttribute("message", "게시글 등록실패~");
-			request.setAttribute("url", "BoardInput.bo");
-		}
+		response.getWriter().write(res+ "");
 	}
 
 }
