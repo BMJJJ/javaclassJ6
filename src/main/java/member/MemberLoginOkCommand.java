@@ -44,7 +44,6 @@ public class MemberLoginOkCommand implements MemberInterface {
 
 		// 로그인 체크 완료후에 처리할 내용....(쿠키/세션/...)
 		// 회원일때 처리할 부분
-		// 1.방문포인트지급:매번 10포인트씩지급, 단 1일 최대 50포인트까지만 지급
 		// 2-1.최종접속일 처리, 방문카운트(일일방문카운트, 전체누적방문카운트)
 		// 2-2.준회원을 자동으로 정회원 등업처리....
 		// 3.처리완료된 자료(vo)를 DB에 업데이트해준다.
@@ -58,21 +57,14 @@ public class MemberLoginOkCommand implements MemberInterface {
 			// 오늘 처음 방문한 경우이다.(오늘 방문카운트는 1)
 			// 2-2. 자동 정회원 등업시키기
 			// 조건: 출석을 10일이상 했을시 정회원 승급
-			vo.setTodayCnt(1);
+			vo.setTodayCnt(vo.getTodayCnt() + 1);
 			vo.setVisitCnt(vo.getVisitCnt()+1);
 			if(vo.getVisitCnt()==10 && vo.getLevel() != 0) {
 				vo.setLevel(2);
 			}
 		}
-		else {
-			vo.setTodayCnt(vo.getTodayCnt() + 1);
-		}		
 	// 3. 방문포인트와 카운트를 증가처리한내용을 vo에 모두 담았다면 DB 자신의 레코드에 변경된 사항들을 갱신처리해준다.
 		dao.setLoginUpdate(vo);	
-		
-		
-		
-		//dao.setLoginUpdate(vo);	
 		
 		// 쿠키에 아이디를 저장/해제 처리한다.
 		// 로그인시 아이디저장시킨다고 체크하면 쿠키에 아이디 저장하고, 그렇지 않으면 쿠키에서 아이디를 제거한다.

@@ -22,12 +22,9 @@
   <title>로그인</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #343a40;
-      margin: 0;
-      padding: 0;
+  	body {
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
     }
     .container {
       display: flex;
@@ -84,11 +81,16 @@
     .form-check {
       margin-top: 15px;
     }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
   </style>
 </head>
 <body>
   <jsp:include page="/include/nav.jsp" />
-  <jsp:include page="/include/header.jsp" />
   <div class="container">
     <div class="card">
       <div class="card-header">

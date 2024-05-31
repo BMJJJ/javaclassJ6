@@ -8,6 +8,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>memberPwdCheck.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
+   <style>
+  	body {
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
+    }
+    th {
+      text-align: center;
+      background-color: #eee;
+    }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
   <script>
     'use strict';
     
@@ -59,7 +75,6 @@
 </head>
 <body>
 <jsp:include page="/include/nav.jsp" />
-<jsp:include page="/include/header.jsp" />
 <p><br/></p>
 <div class="container">
   <form name="myform" method="post" action="MemberPwdCheckOk.mem">

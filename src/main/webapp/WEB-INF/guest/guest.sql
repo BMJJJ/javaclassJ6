@@ -5,13 +5,15 @@ create table guest2 (
 	mid varchar(20) not null, /*방명록 작성자 아이디*/
 	nickName varchar(20) not null,
 	content text not null, /*방명록 글 내용*/
-	email varchar(60), /*메일주소*/
 	visitDate datetime default now(), /*방문일자*/
-	hostIp varchar(30) not null, /*방문자의 접속 IP*/
+	openSw char(2) default 'OK',			/* 게시글 공개여부(OK:공개, NO:비공개) */ 
 	primary key(idx),
 	foreign key(mid) references member2(mid)
 );
 
 desc guest2;
 
-insert into guest2 values ()
+drop table guest2;
+
+insert into guest2 values (default, 'admin','관리맨', '게시판 서비스를 시작합니다.', default, default);
+

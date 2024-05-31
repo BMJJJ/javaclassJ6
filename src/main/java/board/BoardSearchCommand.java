@@ -19,7 +19,6 @@ public class BoardSearchCommand implements BoardInterface {
 		
 		String searchTopic = "";
 		String searchContent = "";
-		System.out.println("flag : " + flag);
 		
 		if(flag.equals("partSearch")) {
 			searchTopic = request.getParameter("partArea");
@@ -31,13 +30,10 @@ public class BoardSearchCommand implements BoardInterface {
 		}
 		
 		
-		System.out.println("searchTopic : " + searchTopic);
-		System.out.println("searchContent : " + searchContent);
 		
 		BoardDAO dao = new BoardDAO();
 		
 		ArrayList<BoardVO> vos = dao.getBoardSearch(flag, searchTopic, searchContent);
-		System.out.println("vos : " + vos);
 		request.setAttribute("vos", vos);
 		request.setAttribute("searchTopic", searchTopic);
 		request.setAttribute("searchContent", searchContent);

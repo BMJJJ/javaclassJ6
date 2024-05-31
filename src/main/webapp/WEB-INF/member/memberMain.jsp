@@ -11,42 +11,49 @@
   <%@ include file = "/include/bs4.jsp" %>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #343a40;
-      margin: 0;
-      padding: 0;
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
     }
     
     .container {
       margin-top: 30px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     h2, h5 {
-      color: #007bff;
+      color: #037367;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.5rem;
+      line-height: 1.5;
     }
 
     hr {
       border: 1px solid #007bff;
+      margin: 20px 0;
     }
 
     .row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .col {
       flex: 1;
+      padding: 10px;
     }
 
     .col img {
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 100%;
+      height: auto;
     }
 
     .col:first-child {
@@ -62,6 +69,7 @@
       background-color: #343a40;
       color: white;
       text-align: center;
+      margin-top: 30px;
     }
     
     .highlight {
@@ -73,11 +81,31 @@
       color: #dc3545;
       font-weight: bold;
     }
+
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .col {
+        padding: 10px 0;
+      }
+      
+      .col:first-child {
+        padding-right: 0;
+      }
+    }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
   </style>
 </head>
 <body>
   <jsp:include page="/include/nav.jsp" />
-  <jsp:include page="/include/header.jsp" />
   <p><br/></p>
   <div class="container">
     <h2>회원 전용방</h2>
@@ -98,8 +126,8 @@
     <div>
       <h5>활동내역</h5>
       <p>방명록에 올린글수 : <b>${guestCnt}</b> 건</p>  <!-- 방명록에 올린이가 '성명/아이디/닉네임'과 같은면 모두 같은 사람이 올린글로 간주한다. -->
-   		<p>게사판에 올린글수 : <b>${boardCnt}</b>건</p>
-    	<p>자료실에 올린글수 : <b>${pdsCnt}</b>건</p>
+      <p>게사판에 올린글수 : <b>${boardCnt}</b> 건</p>
+      <p>자료실에 올린글수 : <b>${pdsCnt}</b> 건</p>
     </div>
   </div>
   <p><br/></p>

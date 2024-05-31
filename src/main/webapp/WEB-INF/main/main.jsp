@@ -11,14 +11,13 @@
   <%@ include file = "/include/bs4.jsp" %>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      color: #343a40;
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
     }
     
 
     h2, h3 {
-      color: #007bff;
+      color: #849974;
     }
 
     .nav-pills .nav-link {
@@ -41,7 +40,7 @@
     }
 
     .table th {
-      background-color: #007bff;
+      background-color: #849974;
       color: white;
     }
 
@@ -83,13 +82,22 @@
       font-family: 'Ownglyph_ryurue-Rg';
       font-size: 20pt;
     }
+    h6 {
+    	font-family: 'Ownglyph_ryurue-Rg';
+     	font-size: 16pt;
+    }
+    h5 {
+    	font-family: 'Ownglyph_ryurue-Rg';
+     	font-size: 16pt;
+    }
+    
   </style>
 </head>
 <body>
 
 <%@ include file = "/include/nav.jsp" %>
 
-<%@ include file = "/include/header.jsp" %>
+<%--  <%@ include file = "/include/header.jsp" %>--%>
 
 <div class="container" style="margin-top:30px">
   <div class="row">
@@ -97,22 +105,22 @@
       <h5 class="mb-4">로그인 중인 회원 : ${sNickName}</h5>
       <h6 class="text-right">같이 걷는 사람들</h6>
       <div class="fakeimg">
-        <table class="table table-striped table-hover text-center">
+        <table class="table">
           <thead>
             <tr>
-              <th>아이디</th>
-              <th>성명</th>
-              <th>지역</th>
+              <th>카페이름</th>
+              <th>회원수</th>
+              <th>총방문수</th>
+              <th>일일방문수</th>
             </tr>
           </thead>
           <tbody>
-            <c:forEach var="vo" items="${recentVos}">
               <tr>
-                <td>${sNickName}</td>
-                <td>${sName}</td>
-                <td>${sAddress}</td>
+                <td>산책로</td>
+                <td>${totMem}</td>
+                <td>${allVisitCnt}</td>
+                <td>${allTodayCnt}</td>
               </tr>
-            </c:forEach>
           </tbody>
         </table>
       </div>

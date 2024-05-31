@@ -11,6 +11,22 @@
   <jsp:include page="/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
+   <style>
+  	body {
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
+    }
+    th {
+      text-align: center;
+      background-color: #eee;
+    }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
   <script>
     'use strict';
     let nickCheckSw = 0;
@@ -137,7 +153,6 @@
   </script>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">

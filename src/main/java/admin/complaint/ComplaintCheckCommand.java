@@ -15,11 +15,11 @@ public class ComplaintCheckCommand implements AdminInterface {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String part = request.getParameter("part")==null? "" : request.getParameter("part");
 		int partIdx = request.getParameter("partIdx")==null? 0 : Integer.parseInt(request.getParameter("partIdx"));
-		String complain = request.getParameter("complain")==null? "" : request.getParameter("complain");
+		String complaint = request.getParameter("complaint")==null? "" : request.getParameter("complaint");
 		
 		AdminDAO dao = new AdminDAO();
 		
-		dao.setComplaintCheck(part, partIdx, complain);
+		dao.setComplaintCheck(part, partIdx, complaint);
 	}
 
 }

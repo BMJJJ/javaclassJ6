@@ -13,6 +13,9 @@ create table board (
 	wDate datetime default now(), 		/*글쓴 날짜*/
 	good int default 0,								/* '좋아요' 클릭 횟수 누적 */
 	complaint char(2) default 'NO',		/* 신고글 유무(신고당한글:OK, 정상글:NO)*/
+	fName varchar(200) not null,			/*업로드시의 화일명*/
+	fSName varchar(200) not null,			/*실제 서버에 저장되는 파일명*/
+	fSize int not null,							/*업로드되는 파일의 총 사이즈*/
 	primary key(idx),									/*기본키 : 고유번호 */
 	foreign key(mid) references member2(mid)
 );

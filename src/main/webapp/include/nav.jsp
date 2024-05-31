@@ -21,11 +21,11 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="${empty sMid ? 'javascript:notLogin()' : '${ctp}/GuestList'}">Guest</a>
+        <a class="nav-link" href="${empty sMid ? 'javascript:notLogin()' : '${ctp}/GuestList.gu'}">지도</a>
       </li>
 			<c:if test="${level <= 4}">
 	      <li class="nav-item">
-	        <a class="nav-link" href="BoardList.bo">자유게시판</a>
+	        <a class="nav-link" href="BoardList.bo">산책로게시판</a>
 	      </li>
 	    </c:if>
       <c:if test="${level <= 4 && (level > 2 || level == 0)}">
@@ -56,7 +56,7 @@
 				    <div class="dropdown-menu">
 				      <a class="dropdown-item" href="MemberMain.mem">회원메인방</a>
 				      <c:if test="${level <= 4 && (level > 1 || level == 0)}">
-					      <a class="dropdown-item" href="#">일정관리</a>
+					      <a class="dropdown-item" href="Schedule.sc">일정관리</a>
 					      <a class="dropdown-item" href="#">메세지관리</a>
 				      	<a class="dropdown-item" href="MemberList.mem">회원리스트</a>
 				      </c:if>

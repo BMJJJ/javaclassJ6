@@ -10,24 +10,36 @@
   <jsp:include page="/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src="${ctp}/js/woo.js"></script>
-    <style>
+  <style>
+  	body {
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
+    }
     .container {
       max-width: 600px;
       margin: auto;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      background-color: #f9f9f9;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      background-color: #ffffff;
     }
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     .form-control {
-      border-radius: 5px;
+      border-radius: 10px;
       border: 1px solid #ced4da;
+      padding: 10px;
+    }
+    .form-control-file {
+      border-radius: 10px;
+      border: 1px solid #ced4da;
+      padding: 10px;
     }
     .btn {
-      border-radius: 5px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
     }
     .btn-secondary {
       background-color: #6c757d;
@@ -45,11 +57,30 @@
       background-color: #0056b3;
       border-color: #004085;
     }
-    .custom-file-label::after {
-      content: "Browse";
+    .input-group-text {
+      border-radius: 10px 0 0 10px;
+      border: 1px solid #ced4da;
     }
-    .custom-file-input:lang(en)~.custom-file-label::after {
-      content: "Browse";
+    .custom-select {
+      border-radius: 0 10px 10px 0;
+      border: 1px solid #ced4da;
+    }
+    .input-group-append .btn {
+      border-radius: 0 10px 10px 0;
+    }
+    .form-check-input {
+      margin-top: 0.3rem;
+    }
+    #photoDemo {
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ced4da;
+    }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
     }
   </style>
   <script>
@@ -231,17 +262,56 @@
     	}
     }
     
-    $(function(){
-    	$("#mid").on("blur", () => {
-    		idCheckSw = 0;
-    	});
-    	
-    	$("#nickName").on("blur", () => {
-    		nickCheckSw = 0;
-    	});
-    	
-    });
- // 선택된 사진 미리보기
+    
+    // 주소 선택시 주소API 호출
+    function addressCheck() {
+    	new daum.Postcode({
+    		oncomplete: function(data) {
+    			let addr = ''; // 주소 변수
+    			let extraAddr = ''; // 참고항목 변수
+    			
+    			// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+    			if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+    				addr = data.roadAddress;
+    			} 
+    			else { // 사용자가 지번 주소를 선택했을 경우(J)
+    				addr = data.jibunAddress;
+    			}
+
+    			// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+    			if(data.userSelectedType === 'R'){
+    				// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+    				// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+    				if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+    					extraAddr += data.bname;
+    				}
+    				// 건물명이 있고, 공동주택일 경우 추가한다.
+    				if(data.buildingName !== '' && data.apartment === 'Y'){
+    					extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+    				}
+    				// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+    				if(extraAddr !== ''){
+    					extraAddr = ' (' + extraAddr + ')';
+    				}
+    				// 조합된 참고항목을 해당 필드에 넣는다.
+    				document.getElementById("extraAddress").value = extraAddr;
+    			
+    			} else {
+    				document.getElementById("extraAddress").value = '';
+    			}
+
+    			// 우편번호와 주소 정보를 해당 필드에 넣는다.
+    			document.getElementById('postcode').value = data.zonecode;
+    			document.getElementById("roadAddress").value = addr;
+    			document.getElementById("jibunAddress").value = data.jibunAddress;
+    			
+    			// 커서를 상세주소 필드로 이동한다.
+    			document.getElementById("detailAddress").focus();
+    		}
+    	}).open();
+    }
+    
+    // 선택된 사진 미리보기
     function imgCheck(e) {
     	if(e.files && e.files[0]) {
     		let reader = new FileReader();
@@ -257,30 +327,58 @@
 <jsp:include page="/include/nav.jsp" />
 <jsp:include page="/include/header.jsp" />
 <p><br/></p>
-<div class="container">
-  <form name="myform" method="post" action="${ctp}/MemberJoinOk.mem" class="was-validated" enctype="multipart/form-data">
-    <h2>회 원 가 입</h2>
-    <br/>
-    <div class="form-group">
-      <label for="mid">아이디 : &nbsp; &nbsp;<input type="button" value="아이디 중복체크" id="midBtn" class="btn btn-secondary btn-sm" onclick="idCheck()"/></label>
-      <input type="text" class="form-control" name="mid" id="mid" placeholder="아이디를 입력하세요." required autofocus/>
+  <div class="container mt-5">
+    <h1 class="mb-4 text-center">회원가입</h1>
+    <form name="myform" action="${ctp}/MemberJoinOk.mem" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="mid">아이디</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="mid" id="mid" required>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" id="midBtn" onclick="idCheck()">중복체크</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="pwd">비밀번호</label>
+        <input type="password" class="form-control" name="pwd" id="pwd" required>
+      </div>
+      <div class="form-group">
+        <label for="pwd2">비밀번호 확인</label>
+        <input type="password" class="form-control" id="pwd2" required onkeyup="pwdCheck()">
+        <small id="pwdConfirm" class="form-text"></small>
+      </div>
+      <div class="form-group">
+        <label for="nickName">닉네임</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="nickName" id="nickName" required>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" id="nickNameBtn" onclick="nickCheck()">중복체크</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">성명</label>
+        <input type="text" class="form-control" name="name" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">성별</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="male" value="남자">
+            <label class="form-check-label" for="male">남자</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="gender" id="female" value="여자">
+            <label class="form-check-label" for="female">여자</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+      	<label for="birthday">생일</label>
+      	<input type="date" name="birthday" value="<%=java.time.LocalDate.now() %>" class="form-control"/>
     </div>
-    <div class="form-group">
-      <label for="pwd">비밀번호 :</label>
-      <input type="password" class="form-control" id="pwd" oninput="pwdCheck()" placeholder="비밀번호를 입력하세요." name="pwd" required />
-      <label for="pwd">비밀번호 재확인:</label>
-      <input type="password" class="form-control" id="pwd2" oninput="pwdCheck()" placeholder="비밀번호를 한번더 입력하세요." name="pwd2" required />
-      <span id="pwdConfirm">확인</span>
-    </div>
-    <div class="form-group">
-      <label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-secondary btn-sm" onclick="nickCheck()"/></label>
-      <input type="text" class="form-control" id="nickName" placeholder="별명을 입력하세요." name="nickName" required />
-    </div>
-    <div class="form-group">
-      <label for="name">성명 :</label>
-      <input type="text" class="form-control" id="name" placeholder="성명을 입력하세요." name="name" required />
-    </div>
-     <div class="form-group">
+      <div class="form-group">
         <label for="email1">이메일</label>
         <div class="input-group">
           <input type="text" id="email1" name="email1" class="form-control" required>
@@ -297,67 +395,38 @@
           </select>
         </div>
       </div>
-    <div class="form-group">
-      <div class="form-check-inline">
-        <span class="input-group-text">성별 :</span> &nbsp; &nbsp;
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="남자" checked>남자
-        </label>
-      </div>
-      <div class="form-check-inline">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="여자">여자
-        </label>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="birthday">생일</label>
-      <input type="date" name="birthday" value="<%=java.time.LocalDate.now() %>" class="form-control"/>
-    </div>
-    <div class="form-group">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <span class="input-group-text">전화번호 :</span> &nbsp;&nbsp;
-            <select name="tel1" class="custom-select">
-              <option value="010" selected>010</option>
-              <option value="02">서울</option>
-              <option value="031">경기</option>
-              <option value="032">인천</option>
-              <option value="041">충남</option>
-              <option value="042">대전</option>
-              <option value="043">충북</option>
-              <option value="051">부산</option>
-              <option value="052">울산</option>
-              <option value="061">전북</option>
-              <option value="062">광주</option>
-            </select>-
-        </div>
-        <input type="text" name="tel2" size=4 maxlength=4 class="form-control" required/>-
-        <input type="text" name="tel3" size=4 maxlength=4 class="form-control" required/>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="address">주소</label>
-      <div class="input-group mb-1">
-        <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" class="form-control" required>
-        <div class="input-group-append">
-          <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-secondary">
+      <div class="form-group">
+        <label for="tel1">전화번호</label>
+        <div class="input-group">
+          <select class="custom-select" name="tel1" id="tel1">
+            <option value="010">010</option>
+            <option value="011">011</option>
+            <option value="02">02</option>
+            <option value="031">031</option>
+          </select>
+          <input type="text" class="form-control" name="tel2" id="tel2" required>
+          <input type="text" class="form-control" name="tel3" id="tel3" required>
         </div>
       </div>
-      <input type="text" name="roadAddress" id="sample6_address" size="50" placeholder="주소" class="form-control mb-1" required>
-      <div class="input-group mb-1">
-        <input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소" class="form-control" required> &nbsp;&nbsp;
-        <div class="input-group-append">
-          <input type="text" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목" class="form-control" required>
+      <div class="form-group">
+        <label for="address">주소</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="postcode" id="postcode" readonly required>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" onclick="addressCheck()">주소검색</button>
+          </div>
         </div>
+        <input type="text" class="form-control mt-2" name="roadAddress" id="roadAddress" readonly required>
+        <input type="text" class="form-control mt-2" name="jibunAddress" id="jibunAddress" readonly required>
+        <input type="text" class="form-control mt-2" name="detailAddress" id="detailAddress" placeholder="상세주소" required>
+        <input type="text" class="form-control mt-2" name="extraAddress" id="extraAddress" readonly>
       </div>
-    </div>
-    <div class="form-group">
-      <div class="form-check-inline">
-        <span class="input-group-text">정보공개</span>  &nbsp; &nbsp;
-        <label class="form-check-label">
+      <div class="form-group">
+      	<div class="form-check-inline">
+        	<span class="input-group-text">정보공개</span>  &nbsp; &nbsp;
+        	<label class="form-check-label">
           <input type="radio" class="form-check-input" name="userInfor" value="공개" checked/>공개
-        </label>
+        	</label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
@@ -365,21 +434,22 @@
         </label>
       </div>
     </div>
-    <div  class="form-group">
-      회원 사진(파일용량:2MByte이내) :
-      <input type="file" name="fName" id="file" onchange="imgCheck(this)" class="form-control-file border"/>
-       <div><img id="photoDemo" width="100px"/></div>
+       <div  class="form-group">
+      	회원 사진(파일용량:2MByte이내) :
+      	<input type="file" name="fName" id="file" onchange="imgCheck(this)" class="form-control-file border"/>
+       	<div><img id="photoDemo" width="100px"/></div>
     </div>
-    <button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
-    <button type="reset" class="btn btn-secondary">다시작성</button> &nbsp;
-    <button type="button" class="btn btn-secondary" onclick="location.href='${ctp}/MemberLogin.mem';">돌아가기</button>
-    
-    <input type="hidden" name="email" />
-    <input type="hidden" name="tel" />
-    <input type="hidden" name="address" />
-  </form>
-</div>
-<p><br/></p>
+      <div class="text-center">
+      	<button type="button" class="btn btn-secondary" onclick="fCheck()">회원가입</button> &nbsp;
+    		<button type="reset" class="btn btn-secondary">다시작성</button> &nbsp;
+    		<button type="button" class="btn btn-secondary" onclick="location.href='${ctp}/MemberLogin.mem';">돌아가기</button>
+      </div>
+      <input type="hidden" name="email" />
+    	<input type="hidden" name="tel" />
+    	<input type="hidden" name="address" />
+    </form>
+  </div>
+  <p><br/></p>
 <jsp:include page="/include/footer.jsp" />
 </body>
 </html>

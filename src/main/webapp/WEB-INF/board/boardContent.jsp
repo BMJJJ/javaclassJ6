@@ -11,9 +11,19 @@
   <title>boardContent.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
+  	body {
+     font-family: 'Ownglyph_ryurue-Rg';
+     font-size: 16pt;
+    }
     th {
       text-align: center;
       background-color: #eee;
+    }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
     }
   </style>
   <script>
@@ -185,10 +195,23 @@
         }
       });
     }
+    // 화살표클릭시 화면 상단으로 부드럽게 이동하기
+    $(window).scroll(function(){
+    	if($(this).scrollTop() > 100) {
+    		$("#topBtn").addClass("on");
+    	}
+    	else {
+    		$("#topBtn").removeClass("on");
+    	}
+    	
+    	$("#topBtn").click(function(){
+    		window.scrollTo({top:0, behavior: "smooth"});
+    	});
+    });
+    
   </script>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
@@ -247,10 +270,10 @@
     <tr>
       <td>
         <c:if test="${!empty nextVo.title}">
-          ☝ <a href="BoardContent.bo?idx=${nextVo.idx}">다음글 : ${nextVo.title}</a><br/>
+          ☝ <a href="BoardContent.bo?idx=${nextVo.idx}&pag=${pag}&pageSize=${pageSize}">다음글 : ${nextVo.title}</a><br/>
         </c:if>
         <c:if test="${!empty preVo.title}">
-          👇 <a href="BoardContent.bo?idx=${preVo.idx}">이전글 : ${preVo.title}</a><br/>
+          👇 <a href="BoardContent.bo?idx=${preVo.idx}&pag=${pag}&pageSize=${pageSize}">이전글 : ${preVo.title}</a><br/>
         </c:if>
       </td>
     </tr>
@@ -307,6 +330,8 @@
     </table>
   </form>
   <br/>
+  <h6 id="topBtn" class="text-right mr-3"><img src="${ctp}/images/icon/up-arrow.png" title="위로이동"/></h6>
+	<p><br/></p>
 </div>
 <!-- 댓글 처리 -->
 
@@ -338,7 +363,6 @@
           <input type="button" value="확인" onclick="complaintCheck()" class="btn btn-success form-control" />
         </form>
       </div>
-      
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

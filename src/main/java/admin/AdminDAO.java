@@ -297,4 +297,81 @@ public class AdminDAO {
 		}
 	}
 
+//신규회원 건수
+	public int getNewMemberListCount() {
+		int mCount = 0;
+		try {
+			sql = "select count(idx) as cnt from member2 where level = 1";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			mCount = rs.getInt("cnt");
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();			
+		}
+		return mCount;
+	}
+
+	// 신고글 유무 체크하기
+	public String getReport(String part, int partIdx) {
+		String report = "NO";
+		try {
+			sql = "select * from complaint where part = ? and partIdx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, part);
+			pstmt.setInt(2, partIdx);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) report = "OK";
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();			
+		}
+		return report;
+	}
+
+//리뷰 내역 전체리스트 가져오기
+	public ArrayList<ReviewVO> getReviewList(int idx, String part) {
+		ArrayList<ReviewVO> rVos = new ArrayList<ReviewVO>();
+		try {
+			//sql = "select * from review where part = ? and partIdx = ? order by idx desc";
+			sql = "select * from (select * from review where part=? and partIdx=?) as v left join reviewReply r "
+					+ "on v.partIdx=? and v.idx=r.reviewIdx order by v.idx desc, r.replyIdx desc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, part);
+			pstmt.setInt(2, idx);
+			pstmt.setInt(3, idx);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ReviewVO vo = new ReviewVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setPart(rs.getString("part"));
+				vo.setPartIdx(rs.getInt("partIdx"));
+				vo.setMid(rs.getString("mid"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setStar(rs.getInt("star"));
+				vo.setContent(rs.getString("content"));
+				vo.setrDate(rs.getString("rDate"));
+				
+				vo.setReplyIdx(rs.getInt("replyIdx"));
+				vo.setReplyMid(rs.getString("replyMid"));
+				vo.setReplyNickName(rs.getString("replyNickName"));
+				vo.setReplyRDate(rs.getString("replyRDate"));
+				vo.setReplyContent(rs.getString("replyContent"));
+				
+				rVos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();			
+		}
+		return rVos;
+	}
+
 }

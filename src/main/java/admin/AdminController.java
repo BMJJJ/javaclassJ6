@@ -23,7 +23,6 @@ import admin.review.ReviewDeleteCommand;
 import admin.review.ReviewInputOkCommand;
 import admin.review.ReviewReplyInputOkCommand;
 
-
 @SuppressWarnings("serial")
 @WebServlet("*.ad")
 public class AdminController extends HttpServlet {
@@ -70,6 +69,11 @@ public class AdminController extends HttpServlet {
 		else if(com.equals("/AdminLeft")) {
 			viewPage += "/adminLeft.jsp";
 		}
+		else if(com.equals("/AdminContent")) {
+			command = new AdminContentCommand();
+			command.execute(request, response);
+			viewPage += "/adminContent.jsp";
+		}
 		else if(com.equals("/MemberList")) {
 			command = new MemberListCommand();
 			command.execute(request, response);
@@ -100,12 +104,12 @@ public class AdminController extends HttpServlet {
 			command.execute(request, response);
 			viewPage += "/board/boardContent.jsp";
 		}
-		else if(com.equals("/complaintList")) {
+		else if(com.equals("/ComplaintList")) {
 			command = new ComplaintListCommand();
 			command.execute(request, response);
-			viewPage += "/complaintt/complainttList.jsp";
+			viewPage += "/complaint/complaintList.jsp";
 		}
-		else if(com.equals("/complaintCheck")) {
+		else if(com.equals("/ComplaintCheck")) {
 			command = new ComplaintCheckCommand();
 			command.execute(request, response);
 			return;
