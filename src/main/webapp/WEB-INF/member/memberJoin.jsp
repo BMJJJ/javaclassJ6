@@ -325,7 +325,6 @@
 </head>
 <body>
 <jsp:include page="/include/nav.jsp" />
-<jsp:include page="/include/header.jsp" />
 <p><br/></p>
   <div class="container mt-5">
     <h1 class="mb-4 text-center">회원가입</h1>

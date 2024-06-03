@@ -245,7 +245,7 @@ public class AdminDAO {
 		return totRecCnt;
 	}
 
-//신고 전체 목록
+	//신고 전체 목록
 	public ArrayList<ComplaintVO> ComplaintList() {
 		ArrayList<ComplaintVO> vos = new ArrayList<ComplaintVO>();
 		try {
@@ -297,7 +297,7 @@ public class AdminDAO {
 		}
 	}
 
-//신규회원 건수
+	//신규회원 건수
 	public int getNewMemberListCount() {
 		int mCount = 0;
 		try {
@@ -373,5 +373,21 @@ public class AdminDAO {
 		}
 		return rVos;
 	}
+
+//신고된 게시글 삭제하기
+		public int setBoardDelete(int idx) {
+			int res = 0;
+			try {
+				sql = "delete from complaint where idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, idx);
+				res = pstmt.executeUpdate();
+			} catch (SQLException e) {
+				System.out.println("SQL 오류 : " + e.getMessage());
+			} finally {
+				pstmtClose();			
+			}
+			return res;
+		}
 
 }

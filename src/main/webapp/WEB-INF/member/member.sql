@@ -28,3 +28,13 @@ desc member2;
 insert into member2 values (default, 'admin', '1234', '관리맨', '관리자', '남자', default, '010-1234-1234', '050/산책시/산책아파트/100동/101호','abc@atom.com', default, default, default, default, default, default, default, default);
 
 select * from member2;
+
+/* 실시간 DB채팅 테이블 설계*/
+create table memberChat (
+	idx int not null auto_increment primary key,
+	nickName varchar(20) not null,
+	chat varchar(100) not null
+);
+desc memberChat;
+
+

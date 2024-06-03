@@ -38,8 +38,21 @@
   	
   	function complaintDelete(idx) {
   		let ans = confirm("현 게시물을 삭제하시겠습니까?");
-  		
-  	}
+  		$.ajax({
+  			url : "BoardDelete.ad",
+  			type : "post",
+  			data: { idx: idx },
+  	        success: function(res) {
+  	          if (res != "0") {
+  	            alert("게시판글이 삭제되었습니다.");
+  	            location.reload();
+  	          } else alert("삭제 실패~~");
+  	        },
+  	        error: function() {
+  	          alert("전송 오류!");
+  	        }
+  	      });
+  	    }
   </script>
 </head>
 <body>

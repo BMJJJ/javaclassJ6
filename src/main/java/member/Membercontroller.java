@@ -54,6 +54,17 @@ public class Membercontroller extends HttpServlet{
 			command.execute(request, response);
 			return;
 		}
+		else if(com.equals("/MemberIdFind")) {
+			viewPage += "/memberIdFind.jsp";
+		}
+		else if(com.equals("/MemberIdFindOk")) {
+			command = new MemberIdFindOkCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/MemberIdFindShow")) {
+			viewPage += "/memberIdFindShow.jsp";
+		}
 		else if(level > 4) {
 			request.setAttribute("message", "로그인후 사용하세요");
 			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");
@@ -99,6 +110,14 @@ public class Membercontroller extends HttpServlet{
 			command = new MemberDeleteCheckOkCommand();
 			command.execute(request, response);
 			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/MemberChatMain")) {
+			viewPage += "/memberChatMain.jsp";
+		}
+		else if(com.equals("/MemberChatInput")) {
+			command = new MemberChatInputCommand();
+			command.execute(request, response);
+			return;
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

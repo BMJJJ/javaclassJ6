@@ -17,7 +17,7 @@
     }
   </style>
   <script>
-    'use strict';kms1234
+    'use strict';
     
     function delCheck(idx) {
     	let ans = confirm("현재 방문글을 삭제하시겠습니까?");
@@ -31,18 +31,18 @@
     	let pageSize = document.getElementById("pageSize").value;
     	location.href = "${ctp}/GuestList?pag=${pag}&pageSize="+pageSize;
     }
+    
+    
   </script>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2 class="text-center">방 명 록 리 스 트</h2>
+  <h2 class="text-center">자 유 게 시 판</h2>
   <table class="table table-borderless m-0 p-0">
     <tr>
-      <!-- <td><a href="#" class="btn btn-primary">관리자</a></td> -->
-      <td><a href="${ctp}/guest/guestInput.jsp" class="btn btn-success">글쓰기</a></td>
+      <td><a href="GuestInput.gu" class="btn btn-success">글쓰기</a></td>
       <td class="text-right">
         <c:if test="${pag > 1}">
           <a href="${ctp}/GuestList?pag=1&pageSize=${pageSize}" title="첫페이지">◁◁</a>
@@ -72,34 +72,21 @@
 	    <tr>
 	      <td>
 	        번호 : ${curScrStartNo}
-	        <c:if test="${sAdmin == 'OK' || sName == vo.name}"><a href="javascript:delCheck(${vo.idx})" class="btn btn-danger btn-sm">삭제</a></c:if>
+	        <c:if test="${sAdmin == 'OK' || sMid == vo.mid}"><a href="javascript:delCheck(${vo.idx})" class="btn btn-danger btn-sm">삭제</a></c:if>
 	      </td>
-	      <td class="text-right">방문IP : ${vo.hostIp}</td>
 	    </tr>
 	  </table>
 	  <table class="table table-bordered">
 	    <tr>
-	      <th>성명</th>
-	      <td>${vo.name}</td>
+	      <th>닉네임</th>
+	      <td>${vo.nickName}</td>
 	      <th>방문일자</th>
 	      <td>${fn:substring(vo.visitDate,0,19)}</td>
 	    </tr>
 	    <tr>
-	      <th>메일주소</th>
+	      <th>글제목</th>
 	      <td colspan="3">
-	      	<%-- 
-	        <c:if test="${vo.email == '' || vo.email == null}">- 없음 -</c:if>
-	        <c:if test="${vo.email != '' && vo.email != null}">${vo.email}</c:if>
-	         --%>
-	        <c:if test="${empty vo.email || fn:length(vo.email)<6 || fn:indexOf(vo.email,'@')==-1 || fn:indexOf(vo.email,'.')==-1}">- 없음 -</c:if>
-	        <c:if test="${!empty vo.email && fn:length(vo.email)>=6 && fn:indexOf(vo.email,'@')!=-1 && fn:indexOf(vo.email,'.')!=-1}">${vo.email}</c:if>
-	      </td>
-	    </tr>
-	    <tr>
-	      <th>홈페이지</th>
-	      <td colspan="3">
-	        <c:if test="${empty vo.homePage || fn:length(vo.homePage)<=10 || fn:indexOf(vo.homePage,'.')==-1}">- 없음 -</c:if>
-	        <c:if test="${!empty vo.homePage && fn:length(vo.homePage)>10 && fn:indexOf(vo.homePage,'.')!=-1}"><a href='${vo.homePage}' target='_blank'>${vo.homePage}</a></c:if>
+	      	${vo.title}
 	      </td>
 	    </tr>
 	    <tr>

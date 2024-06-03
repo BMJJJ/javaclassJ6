@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import common.GetConn;
+import webMessage.WebMessageVO;
 
 public class MemberDAO {
 	private Connection conn = GetConn.getConn();
@@ -210,7 +211,7 @@ public class MemberDAO {
 		return res;
 	}
 
-//회원 전체 리스트
+	//회원 전체 리스트
 	public ArrayList<MemberVO> getMemberList() {
 		ArrayList<MemberVO> vos = new ArrayList<MemberVO>();
 		try {
@@ -317,4 +318,136 @@ public class MemberDAO {
 		}
 		return cafeInfos;
 	}
+
+	// 아이디 찾기
+	public MemberVO getMemberIdFind(String name, String email, String tel) {
+		MemberVO vo = new MemberVO();
+		try {
+			sql = "select * from member2 where name= ? and email=? and tel=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setString(3, tel);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setMid(rs.getString("mid"));
+				vo.setName(rs.getString("name"));
+				vo.setTel(rs.getString("tel"));
+				vo.setEmail(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
+
+	//로그인한 회원에게 전달된 웹메세지중에서 신규(n) 웹메세지 검색처리
+	public ArrayList<WebMessageVO> getMemberWebMessage(String mid) {
+		ArrayList<WebMessageVO> vos = new ArrayList<WebMessageVO>();
+		try {
+			sql = "select *,timestampdiff(hour, sendDate, now()) as hour_diff from webMessage where receiveId=? and receiveSw='n' order by idx desc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				WebMessageVO vo = new WebMessageVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setSendId(rs.getString("sendId"));
+				vo.setSendSw(rs.getString("sendSw"));
+				vo.setSendDate(rs.getString("sendDate"));
+				vo.setReceiveId(rs.getString("receiveId"));
+				vo.setReceiveSw(rs.getString("receiveSw"));
+				vo.setReceiveDate(rs.getString("receiveDate"));
+				
+				vo.setHour_diff(rs.getInt("hour_diff"));
+				
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	//로그인한 회원의 오늘 일정 개수 구해오기
+	public int getMemberScheduleSearch(String mid, String ymd) {
+		int scheduleCnt = 0;
+		try {
+			sql = "select count(*) from schedule where mid = ? and date_format(sDate,'%Y-%m-%d') = ? order by sDate";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, ymd);
+			rs = pstmt.executeQuery();
+			rs.next();
+			scheduleCnt = rs.getInt(1);			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return scheduleCnt;
+	}
+
+//로그인한 회원이 방명록에 올린 글수 가져오기
+	public int getMemberGuestSearch(String nickName) {
+		int guestCnt = 0;
+		try {
+			sql = "select count(*) from guest2 where nickName=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, nickName);
+			rs = pstmt.executeQuery();
+			rs.next();
+			guestCnt = rs.getInt(1);			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return guestCnt;
+	}
+
+//채팅내용 DB에 저장하기
+	public void setMemberChatInputOk(String nickName, String chat) {
+		try {
+			sql = "insert into memberChat values (default,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, nickName);
+			pstmt.setString(2, chat);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+	}
+//채팅내용 DB에서 읽어오기
+	public ArrayList<MemberChatVO> getMemberMessage() {
+		ArrayList<MemberChatVO> vos = new ArrayList<MemberChatVO>();
+		try {
+			sql = "select m.* from (select * from memberChat order by idx desc limit 50) m order by idx";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				MemberChatVO vo = new MemberChatVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setNickName(rs.getString("nickName"));
+				vo.setChat(rs.getString("chat"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return vos;
+	}
+	
 }

@@ -8,6 +8,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>pdsInput.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
+  <style>
+  	body {
+    	font-family: 'Ownglyph_ryurue-Rg';
+    	font-size: 16pt;
+    }
+     @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
   <script>
     'use strict';
     let cnt = 1;

@@ -59,8 +59,11 @@ public class MemberLoginOkCommand implements MemberInterface {
 			// 조건: 출석을 10일이상 했을시 정회원 승급
 			vo.setTodayCnt(vo.getTodayCnt() + 1);
 			vo.setVisitCnt(vo.getVisitCnt()+1);
-			if(vo.getVisitCnt()==10 && vo.getLevel() != 0) {
+			if(vo.getVisitCnt()==5 && vo.getLevel() != 0) {
 				vo.setLevel(2);
+			}
+			if(vo.getVisitCnt()==10 && vo.getLevel() != 0) {
+				vo.setLevel(3);
 			}
 		}
 	// 3. 방문포인트와 카운트를 증가처리한내용을 vo에 모두 담았다면 DB 자신의 레코드에 변경된 사항들을 갱신처리해준다.

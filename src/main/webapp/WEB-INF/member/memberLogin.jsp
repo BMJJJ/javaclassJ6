@@ -109,6 +109,7 @@
           <button type="submit" class="btn btn-success">로그인</button>
           <button type="reset" class="btn btn-warning">다시입력</button>
           <button type="button" class="btn btn-primary" onclick="location.href='${ctp}/MemberJoin.mem';">회원가입</button>
+          <button type="button" class="btn btn-primary" onclick="location.href='${ctp}/MemberIdFind.mem';">아이디찾기</button>
           <div class="form-check">
             <input type="checkbox" name="idSave" id="idSave" class="form-check-input" checked />
             <label class="form-check-label" for="idSave">아이디 저장</label>

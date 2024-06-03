@@ -6,154 +6,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>boardInput.jsp</title>
+  <title>guestInput.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
-  <style>
-    body {
-      background-color: #f8f9fa;
-      font-family: 'Roboto', sans-serif;
-    }
-
-    .container {
-      background-color: #ffffff;
-      padding: 30px;
-      margin-top: 50px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-weight: 700;
-      color: #343a40;
-    }
-
-    .table {
-      margin-bottom: 0;
-      width: 100%;
-    }
-
-    th {
-      background-color: #f1f1f1;
-      text-align: right;
-      vertical-align: middle;
-      padding: 10px 15px;
-      font-weight: 600;
-      color: #495057;
-    }
-
-    td {
-      vertical-align: middle;
-      padding: 10px 15px;
-    }
-
-    .form-control {
-      border-radius: 5px;
-      border: 1px solid #ced4da;
-      padding: 10px;
-      font-size: 16px;
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-
-    .btn-success {
-      background-color: #28a745;
-      border: none;
-      color: #fff;
-    }
-
-    .btn-success:hover {
-      background-color: #218838;
-      transform: translateY(-2px);
-    }
-
-    .btn-warning {
-      background-color: #ffc107;
-      border: none;
-      color: #fff;
-    }
-
-    .btn-warning:hover {
-      background-color: #e0a800;
-      transform: translateY(-2px);
-    }
-
-    .btn-info {
-      background-color: #17a2b8;
-      border: none;
-      color: #fff;
-    }
-
-    .btn-info:hover {
-      background-color: #138496;
-      transform: translateY(-2px);
-    }
-
-    input[type="radio"] {
-      margin-right: 5px;
-    }
-
-    .table input[type="radio"] + label {
-      margin-right: 15px;
-      font-weight: 400;
-      color: #495057;
-    }
-
-    .text-center {
-      text-align: center;
-    }
-
-    .mr-2 {
-      margin-right: 10px;
-    }
-
-    textarea.form-control {
-      resize: vertical;
-    }
-  </style>
 </head>
 <body>
-<jsp:include page="/include/header.jsp" />
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2 class="text-center">게 시 판 글 쓰 기</h2>
-  <form name="myform" method="post" action="BoardInputOk.bo">
-    <table class="table table-bordered">
-      <tr>
-        <th>글쓴이</th>
-        <td><input type="text" name="nickName" id="nickName" value="${sNickName}" readonly class="form-control" /></td>
-      </tr>
-      <tr>
-        <th>공개여부</th>
-        <td>
-          <input type="radio" name="openSw" id="openSw1" value="OK" checked /> 공개 &nbsp;
-          <input type="radio" name="openSw" id="openSw2" value="NO" /> 비공개
-        </td>
-      </tr>
-      <tr>
-        <th>글제목</th>
-        <td><input type="text" name="title" id="title" placeholder="글제목을 입력하세요" autofocus required class="form-control" /></td>
-      </tr>
-      <tr>
-        <th>글내용</th>
-        <td><textarea name="content" id="content" rows="6" class="form-control" required></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="2" class="text-center">
-          <input type="submit" value="글올리기" class="btn btn-success mr-2"/>
-          <input type="reset" value="다시입력" class="btn btn-warning mr-2"/>
-          <input type="button" value="돌아가기" onclick="location.href='BoardList.bo';" class="btn btn-info"/>
-        </td>
-      </tr>
-    </table>
+  <h2>방 명 록 글 쓰 기</h2>
+  <form name="myform" method="post" action="GuestInputOk.gu" class="was-validated">
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" class="form-control" id="title" placeholder="Enter title" name="title" />
+    </div>
+    <div class="form-group">
+      <label for="NickName">닉네임</label>
+      <input type="text" class="form-control" name="nickName" id="nickName" value="${sNickName}" placeholder="Enter nickName" />
+    </div>
+    <div class="form-group">
+      <label for="content">방문소감</label>
+      <textarea rows="5" name="content" id="content" required class="form-control"></textarea>
+      <div class="valid-feedback">Ok!!!</div>
+      <div class="invalid-feedback">방문소감을 입력해 주세요.</div>
+    </div>
+    <div class="form-group text-center">
+    	<button type="submit" class="btn btn-primary mr-3">방명록 등록</button>
+    	<button type="reset" class="btn btn-warning mr-3">방명록 다시입력</button>
+    	<button type="button" onclick="${ctp}/GuestList" class="btn btn-danger">돌아가기</button>
+    </div>
     <input type="hidden" name="mid" value="${sMid}"/>
   </form>
 </div>

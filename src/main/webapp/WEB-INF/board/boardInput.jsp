@@ -10,8 +10,8 @@
   <%@ include file = "/include/bs4.jsp" %>
   <style>
     body {
-      background-color: #f8f9fa;
-      font-family: 'Roboto', sans-serif;
+    	font-family: 'Ownglyph_ryurue-Rg';
+    	font-size: 16pt;
     }
 
     .container {
@@ -117,6 +117,13 @@
     textarea.form-control {
       resize: vertical;
     }
+    @font-face {
+      font-family: 'Ownglyph_ryurue-Rg';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
   </style>
 </head>
 <body>

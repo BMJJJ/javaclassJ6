@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import admin.board.BoardContentCommand;
+import admin.board.BoardDeleteCommand;
 import admin.board.BoardListCommand;
 import admin.complaint.BoardComplaintInputCommand;
 import admin.complaint.ComplaintCheckCommand;
@@ -111,6 +112,11 @@ public class AdminController extends HttpServlet {
 		}
 		else if(com.equals("/ComplaintCheck")) {
 			command = new ComplaintCheckCommand();
+			command.execute(request, response);
+			return;
+		}
+		else if(com.equals("/BoardDelete")) {
+			command = new BoardDeleteCommand();
 			command.execute(request, response);
 			return;
 		}
