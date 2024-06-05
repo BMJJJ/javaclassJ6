@@ -26,6 +26,19 @@ insert into board values (default, 'admin', '관리맨', '게시판 서비스를
 delete from board where idx = ?
 delete from board where idx = 13;
 
+create table adboard (
+	idx int not null auto_increment,
+	mid varchar(20) not null,					/* 게시글 올린이 아이디 */
+	nickName varchar(20) not null,   /* 게시글 올린이 닉네임 */
+	title varchar(100) not null,			/* 게시글 제목 */
+	content text not null,						/*글 내용*/
+	wDate datetime default now(), 		/*글쓴 날짜*/
+	foreign key(mid) references member2(mid)
+);
+
+desc adboard;
+
+
 /*댓글 달기*/
 create table boardReply (
 	idx int not null auto_increment, /*댓글 고유번호*/
