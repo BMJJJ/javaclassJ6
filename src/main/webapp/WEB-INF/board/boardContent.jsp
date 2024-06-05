@@ -11,20 +11,20 @@
   <title>boardContent.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-  	body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+  	 body {
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
     }
     th {
       text-align: center;
       background-color: #eee;
     }
     @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: normal;
+    	font-style: normal;
+		} 
   </style>
   <script>
     'use strict';

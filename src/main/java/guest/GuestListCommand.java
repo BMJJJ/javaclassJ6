@@ -17,8 +17,6 @@ public class GuestListCommand implements GuestInterface {
 		GuestDAO dao = new GuestDAO();
 		//GuestVO vo = new GuestVO();
 		
-		//int res = 0;
-		//res = dao.setGuestInput(vo);
 		
 		// 1. 현재 페이지번호를 구해온다.
 		int pag = request.getParameter("pag")==null ? 1 : Integer.parseInt(request.getParameter("pag"));

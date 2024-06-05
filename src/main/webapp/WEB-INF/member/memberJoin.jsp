@@ -12,8 +12,8 @@
   <script src="${ctp}/js/woo.js"></script>
   <style>
   	body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+    font-family: 'intelone-mono-font-family-regular';
+     font-size: 14pt; 
     }
     .container {
       max-width: 600px;
@@ -26,24 +26,15 @@
     .form-group {
       margin-bottom: 20px;
     }
-    .form-control {
+   /*  .form-control {
       border-radius: 10px;
       border: 1px solid #ced4da;
       padding: 10px;
-    }
+    } */
     .form-control-file {
       border-radius: 10px;
       border: 1px solid #ced4da;
       padding: 10px;
-    }
-    .btn {
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-    .btn-secondary {
-      background-color: #6c757d;
-      border-color: #6c757d;
     }
     .btn-secondary:hover {
       background-color: #5a6268;
@@ -77,11 +68,11 @@
       border: 1px solid #ced4da;
     }
     @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		} 
   </style>
   <script>
     'use strict';

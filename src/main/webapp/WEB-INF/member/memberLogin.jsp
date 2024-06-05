@@ -23,8 +23,8 @@
   <%@ include file = "/include/bs4.jsp" %>
   <style>
   	body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 14pt; 
     }
     .container {
       display: flex;
@@ -81,12 +81,12 @@
     .form-check {
       margin-top: 15px;
     }
-    @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
+   @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		} 
   </style>
 </head>
 <body>
@@ -107,9 +107,9 @@
             <input type="password" name="pwd" id="pwd" class="form-control" placeholder="비밀번호를 입력하세요" required />
           </div>
           <button type="submit" class="btn btn-success">로그인</button>
-          <button type="reset" class="btn btn-warning">다시입력</button>
           <button type="button" class="btn btn-primary" onclick="location.href='${ctp}/MemberJoin.mem';">회원가입</button>
           <button type="button" class="btn btn-primary" onclick="location.href='${ctp}/MemberIdFind.mem';">아이디찾기</button>
+          <button type="button" class="btn btn-warning" onclick="location.href='${ctp}/MemberPwdFind.mem';">비밀번호찾기</button>
           <div class="form-check">
             <input type="checkbox" name="idSave" id="idSave" class="form-check-input" checked />
             <label class="form-check-label" for="idSave">아이디 저장</label>

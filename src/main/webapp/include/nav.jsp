@@ -22,33 +22,38 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="${empty sMid ? 'javascript:notLogin()' : '${ctp}/GuestList.gu'}">방명록</a>
-      </li>
+      <%-- </li>
 			<c:if test="${level <= 4}">
 	      <li class="nav-item">
 	        <a class="nav-link" href="MemberChatMain.mem">실시간채팅방</a>
 	      </li>
-	    </c:if>
+	    </c:if> --%>
       <c:if test="${level <= 4 && (level > 2 || level == 0)}">
 	      <li class="nav-item">
-	        <a class="nav-link" href="PdsList.pds">사진 공유방</a>
-	      </li>    
+	        <a class="nav-link" href="PdsList.pds">사진공유방</a>
+	      </li>
+	    </c:if>
 	      <li class="nav-item mr-2">
 				  <div class="dropdown">
 				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">게시판</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="BoardList.bo">게시판</a>
+				      <a class="dropdown-item" href="BoardList.bo">공지사항</a>
+				      <a class="dropdown-item" href="BoardList.bo">산책로게시판</a>
 				    </div>
 				  </div>
 	      </li>
 	      <li class="nav-item mr-2">
 				  <div class="dropdown">
-				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">준비중</button>
+				    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">산책로 추천</button>
 				    <div class="dropdown-menu">
-				      <a class="dropdown-item" href="#">준비중ㅎ</a>
+				      <a class="dropdown-item" href="RandomMain.ran">산책로 랜덤 추천</a>
+				      <c:if test="${level <= 4 && (level > 2 || level == 0)}">
+				      <a class="dropdown-item" href="RandomInput.ran">산책로 추천 업로드</a>
+				      </c:if>
 				    </div>
 				  </div>
 	      </li>
-      </c:if>
+
       <c:if test="${level <= 4}">
 	      <li class="nav-item mr-2">
 				  <div class="dropdown">

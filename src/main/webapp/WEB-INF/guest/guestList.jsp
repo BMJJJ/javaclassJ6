@@ -11,10 +11,98 @@
   <title>guestList.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-    th {
-      background-color: #eee;
+  	<style>
+  	 body {
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
+     background-color: beige;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #343a40;
+    }
+    .table {
+      margin-bottom: 0;
+    }
+    .table th, .table td {
+      padding: 10px;
+      vertical-align: middle;
+    }
+    .table th {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .table-borderless th, .table-borderless td {
+      border: none;
+    }
+    .btn {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      color: #ffffff;
+    }
+    .page-link {
+      color: #343a40;
+    }
+    .page-link:hover {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+    .page-item.active .page-link {
+      background-color: #495057;
+      border-color: #495057;
+    }
+    .modal-content {
+      border-radius: 10px;
+    }
+    .modal-header {
+      background-color: #343a40;
+      color: #ffffff;
+      border-bottom: none;
+    }
+    .modal-footer {
+      border-top: none;
+    }
+    #myModal .modal-body {
+      font-size: 16px;
+    }
+    select, input[type="text"] {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+    }
+    .text-center {
       text-align: center;
     }
+    .text-right {
+      text-align: right;
+    }
+   @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		}  
   </style>
   <script>
     'use strict';
@@ -29,7 +117,7 @@
     
     function pageSizeCheck() {
     	let pageSize = document.getElementById("pageSize").value;
-    	location.href = "${ctp}/GuestList?pag=${pag}&pageSize="+pageSize;
+    	location.href = "GuestList.gu?pag=${pag}&pageSize="+pageSize;
     }
     
     
@@ -39,19 +127,19 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2 class="text-center">자 유 게 시 판</h2>
+  <h2 class="text-center">방명록</h2>
   <table class="table table-borderless m-0 p-0">
     <tr>
       <td><a href="GuestInput.gu" class="btn btn-success">글쓰기</a></td>
       <td class="text-right">
         <c:if test="${pag > 1}">
-          <a href="${ctp}/GuestList?pag=1&pageSize=${pageSize}" title="첫페이지">◁◁</a>
-          <a href="${ctp}/GuestList?pag=${pag-1}&pageSize=${pageSize}" title="이전페이지">◀</a>
+          <a href="GuestList.gu?pag=1&pageSize=${pageSize}" title="첫페이지">◁◁</a>
+          <a href="GuestList.gu?pag=${pag-1}&pageSize=${pageSize}" title="이전페이지">◀</a>
         </c:if>
         ${pag}/${totPage}
         <c:if test="${pag < totPage}">
-          <a href="${ctp}/GuestList?pag=${pag+1}&pageSize=${pageSize}" title="다음페이지">▶</a>
-          <a href="${ctp}/GuestList?pag=${totPage}&pageSize=${pageSize}" title="마지막페이지">▷▷</a>
+          <a href="GuestList.gu?pag=${pag+1}&pageSize=${pageSize}" title="다음페이지">▶</a>
+          <a href="GuestList.gu?pag=${totPage}&pageSize=${pageSize}" title="마지막페이지">▷▷</a>
         </c:if>
       </td>
     </tr>
@@ -101,14 +189,14 @@
 <!-- 블록페이지 시작 -->
 <div class="text-center">
   <ul class="pagination justify-content-center">
-	  <c:if test="${pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList?pag=1&pageSize=${pageSize}">첫페이지</a></li></c:if>
-	  <c:if test="${curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">이전블록</a></li></c:if>
+	  <c:if test="${pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="GuestList.gu?pag=1&pageSize=${pageSize}">첫페이지</a></li></c:if>
+	  <c:if test="${curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="GuestList.gu?pag=${(curBlock-1)*blockSize + 1}&pageSize=${pageSize}">이전블록</a></li></c:if>
 	  <c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize) + blockSize}" varStatus="st">
-	    <c:if test="${i <= totPage && i == pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/GuestList?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
-	    <c:if test="${i <= totPage && i != pag}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= totPage && i == pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="GuestList.gu?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
+	    <c:if test="${i <= totPage && i != pag}"><li class="page-item"><a class="page-link text-secondary" href="GuestList.gu?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
 	  </c:forEach>
-	  <c:if test="${curBlock < lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList?pag=${(curBlock+1)*blockSize+1}&pageSize=${pageSize}">다음블록</a></li></c:if>
-	  <c:if test="${pag < totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/GuestList?pag=${totPage}&pageSize=${pageSize}">마지막페이지</a></li></c:if>
+	  <c:if test="${curBlock < lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="GuestList.gu?pag=${(curBlock+1)*blockSize+1}&pageSize=${pageSize}">다음블록</a></li></c:if>
+	  <c:if test="${pag < totPage}"><li class="page-item"><a class="page-link text-secondary" href="GuestList.gu?pag=${totPage}&pageSize=${pageSize}">마지막페이지</a></li></c:if>
   </ul>
 </div>
 <!-- 블록페이지 끝 -->

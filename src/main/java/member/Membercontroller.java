@@ -65,6 +65,23 @@ public class Membercontroller extends HttpServlet{
 		else if(com.equals("/MemberIdFindShow")) {
 			viewPage += "/memberIdFindShow.jsp";
 		}
+		else if(com.equals("/MemberPwdFind")) {
+			viewPage += "/memberPwdFind.jsp";
+		}
+		else if(com.equals("/MemberPwdFindOk")) {
+			command = new MemberPwdFindOkCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		else if(com.equals("/MemberPwdChange")) {
+			viewPage += "/memberPwdChange.jsp";
+		}
+		else if(com.equals("/MemberPwdChangeOk")) {
+			command = new MemberPwdChangeOkCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
+		}
+		
 		else if(level > 4) {
 			request.setAttribute("message", "로그인후 사용하세요");
 			request.setAttribute("url", request.getContextPath()+"/MemberLogin.mem");

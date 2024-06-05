@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import common.GetConn;
 
@@ -429,8 +428,6 @@ import common.GetConn;
 			        + "timestampdiff(hour, wDate, now()) as hour_diff, "
 			        + "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
 			        + "from board b where partArea = ? and part = ? order by idx desc";
-					
-					
 					pstmt = conn.prepareStatement(sql);
 				  pstmt.setString(1, searchTopic);
 				  pstmt.setString(2, searchContent);
@@ -440,7 +437,6 @@ import common.GetConn;
 							+ "timestampdiff(hour, wDate, now()) as hour_diff, "
 							+ "(select count(*) from boardReply where boardIdx = b.idx) as replyCnt "
 							+ "from board b where "+searchTopic+" like concat('%', ?, '%') order by idx desc";
-					
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, searchContent);
 				}
@@ -474,5 +470,43 @@ import common.GetConn;
 			return vos;
 		}
 
+		// 총 페이지 건수 구하기
+		public int getTotRecCnt(String partArea, String part) {
+			int totRecCnt = 0;
+			try {
+				sql = "select count(*) as cnt from board where partArea=? and part=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, partArea);
+				pstmt.setString(2, part);
+				rs = pstmt.executeQuery();
+				rs.next();
+				totRecCnt = rs.getInt("cnt");
+			} catch (SQLException e) {
+				System.out.println("SQL 오류.. : " + e.getMessage());
+				e.printStackTrace();
+			} finally {
+				rsClose();			
+			}
+			return totRecCnt;
+		}
 
-	}
+		//보드 최신글
+		public int getNewBoardList() {
+		    int blCount = 0;
+		    try {
+		        sql = "select count(idx) as cnt from board where datediff(now(), wDate) <= 1";
+		        pstmt = conn.prepareStatement(sql);
+		        rs = pstmt.executeQuery();
+		        
+		        if (rs.next()) {
+		            blCount = rs.getInt("cnt");
+		        }
+		    } catch (SQLException e) {
+		        System.out.println("SQL 오류 : " + e.getMessage());
+		    } finally {
+		        rsClose();            
+		    }
+		    return blCount;
+		}
+
+}

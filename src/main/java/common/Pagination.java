@@ -12,7 +12,6 @@ import pds.PdsVO;
 public class Pagination {
 
 	public static void pageChange(HttpServletRequest request, int pag, int pageSize, String contentsShow, String section,	String part) {
-		// 사용하는 vo가 각각 다르기에 하나의 DAO를 사용하는것 보다는, 해당 DAO에서 처리하는것이 더 편리하다.
 		BoardDAO boardDao = new BoardDAO();
 		PdsDAO pdsDao = new PdsDAO();
 		

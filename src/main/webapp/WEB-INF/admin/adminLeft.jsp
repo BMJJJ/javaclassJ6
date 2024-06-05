@@ -18,7 +18,7 @@
   <hr/>
   <div>
     <h5>방명록</h5>
-    <div><a href="${ctp}/GuestList" target="adminContent">방명록리스트</a></div>
+    <div><a href="GuestList.gu" target="adminContent">방명록리스트</a></div>
   </div>
   <hr/>
   <div>

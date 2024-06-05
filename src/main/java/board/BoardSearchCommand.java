@@ -11,12 +11,7 @@ public class BoardSearchCommand implements BoardInterface {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String partArea = request.getParameter("partArea")==null ? "" : request.getParameter("partArea");
-//		String part = request.getParameter("part")==null ? "" : request.getParameter("part");
-//		String search = request.getParameter("search")==null ? "" : request.getParameter("search");
-//		String searchString = request.getParameter("searchString")==null ? "" : request.getParameter("searchString");
 		String flag = request.getParameter("flag")==null ? "" : request.getParameter("flag");
-		
 		String searchTopic = "";
 		String searchContent = "";
 		
@@ -29,18 +24,33 @@ public class BoardSearchCommand implements BoardInterface {
 			searchContent = request.getParameter("searchString");
 		}
 		
-		
-		
 		BoardDAO dao = new BoardDAO();
 		
+    // 페이징처리 시작
+		int pag = request.getParameter("pag")==null ? 1 : Integer.parseInt(request.getParameter("pag"));
+		int pageSize = request.getParameter("pageSize")==null ? 10 : Integer.parseInt(request.getParameter("pageSize"));
+		int totRecCnt = dao.getTotRecCnt(searchTopic, searchContent);
+		int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;
+		if(pag > totPage) pag = 1;
+		int startIndexNo = (pag - 1) * pageSize;
+		int curScrStartNo = totRecCnt - startIndexNo;
+		int blockSize = 3;
+		int curBlock = (pag - 1) / blockSize;
+		int lastBlock = (totPage - 1) / blockSize;
+		
 		ArrayList<BoardVO> vos = dao.getBoardSearch(flag, searchTopic, searchContent);
+		request.setAttribute("partArea", searchTopic);
+		request.setAttribute("part", searchContent);
+		
+		request.setAttribute("pag", pag);
+		request.setAttribute("pageSize", pageSize);
+		request.setAttribute("totRecCnt", totRecCnt);
+		request.setAttribute("totPage", totPage);
+		request.setAttribute("curScrStartNo", curScrStartNo);
+		request.setAttribute("blockSize", blockSize);
+		request.setAttribute("curBlock", curBlock);
+		request.setAttribute("lastBlock", lastBlock);
 		request.setAttribute("vos", vos);
-		request.setAttribute("searchTopic", searchTopic);
-		request.setAttribute("searchContent", searchContent);
-		request.setAttribute("pag", 1);
-		request.setAttribute("pageSize", 10);
-//		request.setAttribute("search", search);
-//		request.setAttribute("searchString", searchString);
 		
 	}
 

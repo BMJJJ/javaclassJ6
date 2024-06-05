@@ -182,7 +182,7 @@ public class MemberDAO {
 	public int setMemberPwdChange(String mid, String pwd) {
 		int res = 0;
 		try {
-			sql = "update member set pwd=? where mid = ?";
+			sql = "update member2 set pwd=? where mid = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pwd);
 			pstmt.setString(2, mid);
@@ -344,6 +344,30 @@ public class MemberDAO {
 		return vo;
 	}
 
+	// 비밀번호 찾기
+	public MemberVO getMemberPwdFind(String mid, String name, String email) {
+		MemberVO vo = new MemberVO();
+		try {
+			sql = "select * from member2 where mid= ? and name=? and email=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, name);
+			pstmt.setString(3, email);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo.setMid(rs.getString("mid"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vo;
+	}
+	
 	//로그인한 회원에게 전달된 웹메세지중에서 신규(n) 웹메세지 검색처리
 	public ArrayList<WebMessageVO> getMemberWebMessage(String mid) {
 		ArrayList<WebMessageVO> vos = new ArrayList<WebMessageVO>();
@@ -449,5 +473,6 @@ public class MemberDAO {
 		}
 		return vos;
 	}
+
 	
 }

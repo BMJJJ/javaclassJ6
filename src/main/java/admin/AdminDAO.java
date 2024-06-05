@@ -221,7 +221,7 @@ public class AdminDAO {
 		return res;
 	}
 
-//각 레벨별 건수 구하기
+	//각 레벨별 건수 구하기
 	public int getTotRecCnt(int level) {
 		int totRecCnt = 0;
 		try {
@@ -389,5 +389,44 @@ public class AdminDAO {
 			}
 			return res;
 		}
+
+		// 탈퇴회원 리스트
+		public int getDeleteMemberListCount() {
+				int mdCount = 0;
+				try {
+					sql = "select count(idx) as cnt from member2 where level = 99";
+					pstmt = conn.prepareStatement(sql);
+					rs = pstmt.executeQuery();
+					
+					rs.next();
+					mdCount = rs.getInt("cnt");
+				} catch (SQLException e) {
+					System.out.println("SQL 오류 : " + e.getMessage());
+				} finally {
+					rsClose();			
+				}
+				return mdCount;
+			}
+
+		//신고 게시글 개수
+		public int getComplaintList() {
+	    int cList = 0;
+	    try {
+	        sql = "select count(*) as cnt from complaint c, board b where c.partIdx = b.idx";
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	        	cList = rs.getInt("cnt");
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("SQL 오류 : " + e.getMessage());
+	    } finally {
+	        rsClose();            
+	    }
+	    return cList;
+	}
+
+
 
 }

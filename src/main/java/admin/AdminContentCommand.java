@@ -18,11 +18,19 @@ public class AdminContentCommand implements AdminInterface {
 		
 		BoardDAO dao2 = new BoardDAO();
 		
+		AdminDAO dao3 = new AdminDAO();
+		
 		int mCount = dao.getNewMemberListCount();
+		int mdCount = dao.getDeleteMemberListCount();
 		
+		int blCount = dao2.getNewBoardList();
 		
+		int cList = dao3.getComplaintList();
 		
 		request.setAttribute("mCount", mCount);
+		request.setAttribute("mdCount", mdCount);
+		request.setAttribute("blCount", blCount);
+		request.setAttribute("cList", cList);
 	}
 
 }

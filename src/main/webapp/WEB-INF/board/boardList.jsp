@@ -10,9 +10,10 @@
   <title>boardList.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-   body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+    body {
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
+     background-color: beige;
     }
     .container {
       background-color: #ffffff;
@@ -94,12 +95,12 @@
     .text-right {
       text-align: right;
     }
-    @font-face {
-    	font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
+   @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		}  
     
   </style>
   <script>
@@ -123,7 +124,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <form name="searchForm" method="post" action="BoardSearch.bo?flag=partSearch">
+  <form name="searchForm" method="post" action="BoardSearch.bo">
     <select name="partArea" id="partArea">
       <option ${partArea=="전체" ? "selected" : ""}>전체</option>
       <option ${partArea=="서울" ? "selected" : ""}>서울</option>
@@ -141,7 +142,8 @@
       <option ${part=="추천" ? "selected" : ""}>추천</option>
       <option ${part=="명소" ? "selected" : ""}>명소</option>
     </select>
-    <input type="submit" value="검색" onclick="searchCheck()" class="btn btn-secondary"/>
+    <input type="submit" value="검색" class="btn btn-secondary"/>
+    <input type="hidden" name="flag" value="partSearch"/>
   </form>
   <table class="table table-borderless m-0 p-0">
     <tr>
@@ -166,6 +168,7 @@
       <th>글제목</th>
       <th>글쓴이</th>
       <th>글쓴날짜</th>
+      <th>분류</th>
       <th>조회수(좋아요)</th>
     </tr>
     <c:set var="curScrStartNo" value="${curScrStartNo}" />
@@ -186,6 +189,9 @@
             <td>
               <!-- 1일(24시간) 이내는 시간만 표시(10:43), 이후는 날짜와 시간을 표시 : 2024-05-14 10:43 -->
               ${vo.date_diff == 0 ? fn:substring(vo.wDate,11,19) : fn:substring(vo.wDate,0,10)}
+            </td>
+            <td>
+            	${vo.part}
             </td>
             <td>${vo.readNum}(${vo.good})</td>
           </tr>

@@ -10,86 +10,102 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-    body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+   body {
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
+     background-color: beige;
     }
-    
-
-    h2, h3 {
-      color: #849974;
-    }
-
-    .nav-pills .nav-link {
-      border-radius: 0;
-      color: #007bff;
-      transition: background-color 0.3s ease;
-    }
-
-    .nav-pills .nav-link.active {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .nav-pills .nav-link:hover {
-      background-color: #e2e6ea;
-    }
-
-    .table {
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
       margin-top: 20px;
     }
-
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #343a40;
+    }
+    .table {
+      margin-bottom: 0;
+    }
+    .table th, .table td {
+      padding: 10px;
+      vertical-align: middle;
+    }
     .table th {
-      background-color: #849974;
-      color: white;
+      background-color: #343a40;
+      color: #ffffff;
     }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-      background-color: rgba(0, 123, 255, 0.05);
-    }
-
     .table-hover tbody tr:hover {
-      background-color: rgba(0, 123, 255, 0.1);
+      background-color: #f1f1f1;
     }
-
-    .container {
-      margin-top: 30px;
+    .table-borderless th, .table-borderless td {
+      border: none;
     }
-
-    .mb-4 {
-      margin-bottom: 1.5rem;
+    .btn {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-weight: 600;
     }
-
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      color: #ffffff;
+    }
+    .page-link {
+      color: #343a40;
+    }
+    .page-link:hover {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+    .page-item.active .page-link {
+      background-color: #495057;
+      border-color: #495057;
+    }
+    .modal-content {
+      border-radius: 10px;
+    }
+    .modal-header {
+      background-color: #343a40;
+      color: #ffffff;
+      border-bottom: none;
+    }
+    .modal-footer {
+      border-top: none;
+    }
+    #myModal .modal-body {
+      font-size: 16px;
+    }
+    select, input[type="text"] {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+    }
+    .text-center {
+      text-align: center;
+    }
     .text-right {
       text-align: right;
     }
-
-    .footer {
-      padding: 20px 0;
-      background-color: #343a40;
-      color: white;
-      text-align: center;
-    }
-
-    @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
-    p {
-      font-family: 'Ownglyph_ryurue-Rg';
-      font-size: 20pt;
-    }
-    h6 {
-    	font-family: 'Ownglyph_ryurue-Rg';
-     	font-size: 16pt;
-    }
-    h5 {
-    	font-family: 'Ownglyph_ryurue-Rg';
-     	font-size: 16pt;
-    }
+   @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		}  
+  /* Make the image fully responsive */
+  .carousel-inner img {
+    width: 100%;
+    height: 100%;
+  }
     
   </style>
 </head>
@@ -124,9 +140,8 @@
           </tbody>
         </table>
       </div>
-      <p>길 위에 둥둥 떠다니기</p>
-      <h3>Some Links</h3>
-      <p>Lorem ipsum dolor sit ame.</p>
+      <p>환영합니다. 오늘도 좋은 날 입니다.</p>
+      <!-- <p>Lorem ipsum dolor sit ame.</p>
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
           <a class="nav-link active" href="#">Active</a>
@@ -140,20 +155,47 @@
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Disabled</a>
         </li>
-      </ul>
+      </ul> -->
       <hr class="d-sm-none">
     </div>
     <div class="col-sm-8">
-      <h2>낮</h2>
-      <h5>Title description, Dec 7, 2017</h5>
-      <div class="w3-content w3-section ml-2" style="max-width:500px">
-        <img class="mySlides w3-animate-fading" src="${ctp}/images/116.jpg" style="width:100%" >
-        <img class="mySlides w3-animate-fading" src="${ctp}/images/117.jpg" style="width:100%">
-        <img class="mySlides w3-animate-fading" src="${ctp}/images/127.jpg" style="width:100%">
-        <img class="mySlides w3-animate-fading" src="${ctp}/images/130.jpg" style="width:100%">
-      </div>
-      <p>Some text..</p>
-      <p>최고의 약은 바로 걷는 것이다. - 히포크라테스-</p>
+      <h2></h2>
+      <div id="demo" class="carousel slide" data-ride="carousel">
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+  </ul>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="${ctp}/images/143.jpg" alt="Los Angeles" width="100" height="500">
+      <div class="carousel-caption">
+        <h3></h3>
+        <p>대청댐</p>
+      </div>   
+    </div>
+    <div class="carousel-item">
+      <img src="${ctp}/images/141.jpg" alt="Chicago" width="100" height="500">
+      <div class="carousel-caption">
+        <h3></h3>
+        <p>향정원</p>
+      </div>   
+    </div>
+    <div class="carousel-item">
+      <img src="${ctp}/images/142.jpg" alt="New York" width="100" height="500">
+      <div class="carousel-caption">
+        <h3></h3>
+        <p>운문사</p>
+      </div>   
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
       <br>
       <h2>밤</h2>
       <h5>Title description, Sep 2, 2017</h5>
@@ -171,20 +213,6 @@
 <%@ include file = "../../include/footer.jsp" %>
 <script>
 'use strict';
-	var myIndex = 0;
-	carousel();
-
-	function carousel() {
-  	var i;
-  	var x = document.getElementsByClassName("mySlides");
-  	for (i = 0; i < x.length; i++) {
-    	x[i].style.display = "none";  
-  	}
-  	myIndex++;
-  	if (myIndex > x.length) {myIndex = 1}    
-  	x[myIndex-1].style.display = "block";  
-  	setTimeout(carousel, 6000);    
-	}
 
 	var myIndex2 = 0;
 	carousel2();

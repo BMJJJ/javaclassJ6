@@ -8,23 +8,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insert</title>
+  <title>pdsList.jsp</title>
   <%@ include file = "/include/bs4.jsp" %>
   <style>
-  body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+   body {
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
+     background-color: beige;
     }
-    th {
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: #343a40;
+    }
+    .table {
+      margin-bottom: 0;
+    }
+    .table th, .table td {
+      padding: 10px;
+      vertical-align: middle;
+    }
+    .table th {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+    .table-borderless th, .table-borderless td {
+      border: none;
+    }
+    .btn {
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+      color: #ffffff;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      color: #ffffff;
+    }
+    .page-link {
+      color: #343a40;
+    }
+    .page-link:hover {
+      background-color: #343a40;
+      color: #ffffff;
+    }
+    .page-item.active .page-link {
+      background-color: #495057;
+      border-color: #495057;
+    }
+    .modal-content {
+      border-radius: 10px;
+    }
+    .modal-header {
+      background-color: #343a40;
+      color: #ffffff;
+      border-bottom: none;
+    }
+    .modal-footer {
+      border-top: none;
+    }
+    #myModal .modal-body {
+      font-size: 16px;
+    }
+    select, input[type="text"] {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ced4da;
+    }
+    .text-center {
       text-align: center;
-      background-color: #eee;
     }
-    @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
+    .text-right {
+      text-align: right;
     }
+   @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: 400;
+    	font-style: normal;
+		}  
   </style>
   <script>
     'use strict';
@@ -79,7 +156,7 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2 class="text-center">자 료 실 리 스 트(${part})</h2>
+  <h2 class="text-center">사진 공유방(${part})</h2>
   <br/>
   <table class="table table-borderless m-0 p-0">
     <tr>
@@ -87,9 +164,9 @@
         <form name="partForm">
           <select name="part" id="part" onchange="partCheck()">
             <option ${part=="전체" ? "selected" : ""}>전체</option>
-            <option ${part=="학습" ? "selected" : ""}>학습</option>
             <option ${part=="여행" ? "selected" : ""}>여행</option>
-            <option ${part=="음식" ? "selected" : ""}>음식</option>
+            <option ${part=="공유" ? "selected" : ""}>공유</option>
+            <option ${part=="일상" ? "selected" : ""}>일상</option>
             <option ${part=="기타" ? "selected" : ""}>기타</option>
           </select>
         </form>

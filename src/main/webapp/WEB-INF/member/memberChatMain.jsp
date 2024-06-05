@@ -10,16 +10,23 @@
   <%@ include file = "/include/bs4.jsp" %>
   <style>
   	body {
-     font-family: 'Ownglyph_ryurue-Rg';
-     font-size: 16pt;
+     font-family: 'intelone-mono-font-family-regular';
+     font-size: 12pt; 
     }
     
-    @font-face {
-      font-family: 'Ownglyph_ryurue-Rg';
-      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2405-2@1.0/Ownglyph_ryurue-Rg.woff2') format('woff2');
-      font-weight: normal;
-      font-style: normal;
+    p{
+    	font-size: 12pt;
     }
+    
+     @font-face {
+    	font-family: 'intelone-mono-font-family-regular';
+    	src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/intelone-mono-font-family-regular.woff2') format('woff2');
+    	font-weight: normal;
+    	font-style: normal;
+		}  
+		
+		* {box-sizing: border-box;}
+
   </style>
     <script>
     'use strict';
@@ -48,14 +55,15 @@
   </script>
 </head>
 <body>
-<jsp:include page="/include/header.jsp"/>
 <jsp:include page="/include/nav.jsp"/>
 <p><br/></p>
 <div class="container">
-  <div class="col" style="width:420px">
+  <div class="col" style="width:600px">
 	    <form name="chatForm">
 	      <label for="chat"><b>실시간 대화방</b></label>
-	      <iframe src="${ctp}/include/memberMessage.jsp" width="100%" height="200px" class="border"></iframe>
+	      <div>
+	      <iframe src="${ctp}/include/memberMessage.jsp" width="100%" height="500px" class="border"></iframe>
+	      </div>
 	      <div class="input-group mt-1">
 	        <input type="text" name="chat" id="chat" class="form-control" placeholder="대화내용을 입력하세요" autofocus />
 	        <div class="input-group-append">
@@ -64,7 +72,7 @@
 	      </div>
 	    </form>
 	    <div>
-	    	ㅎㅇ
+	    	<p>한번 더 생각하기</p> 
 	    </div>
 	  </div>
 </div>

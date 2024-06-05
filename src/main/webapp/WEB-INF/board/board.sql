@@ -46,4 +46,4 @@ desc boardReply;
 
 insert into boardReply values (default, 1, 'ctom1234', '씨톰맨', default, '굿',default);
 
-
+select count(idx) as cnt from board where wDate = now();
